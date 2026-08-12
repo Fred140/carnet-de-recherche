@@ -1,0 +1,3744 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Carnet de recherche</title>
+<meta name="description" content="Suivi des candidatures et des formations." />
+
+<!-- Écran d'accueil iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Carnet" />
+<meta name="theme-color" content="#0C2B2A" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB+klEQVR42u3cPQ4BURSAUWRKi1BjBSIapUWorEAnStHZDSWFiHVYigUQyfiZd2+cUyIiM1/uS55Huzvot+CZjkuAOBAH4kAciANxIA7EgTgQB4gDcSAOxIE4EAfiQByIA3GAOBAH4kAcNKn6xZvu57Xfdrg4uRkf6o0nJgeWFcSBOBAH4kAciAPEgTgQB+JAHIgDcSAOxIE4QByIA3EgDsSBOBAH4kAciAPEgTgQB+JAHBRXZfzQX/8Lmzhul7PJgWUFcSAOxAHiQByIg29LuQkWaqfI5EAcIA7EgTgQB+JAHIgDcSAOxAHiQBy8JeVX9sv1KstH3W22JgeWFcQB4kAciANxIA5KS7kJlnpnyeRAHIgDcYA4EAfiQByIA3GQQOUSNOw6mz4+ODocxSGLV09FS8SyUr6MWq8Rxz+WEbAPv1up543TAnXv93U2DbK+mBxRZkbA+SEOxJFnbMQZHuJAHIgDcSAOivK7FUyOEj7Z6IywSSoOxJFqePhuRR+hyxBHuD5CnfcRR6A+op0Ec0yw6T6cISXNeLCsIA7EgTgQB+JAHIgDcSAOEAfiQByIA3EgDsSBOBAH4gBxIA7EgTgQB+JAHIgDcfBP2t1B31XA5EAciANxIA7EgTgQB+JAHCAOxIE4EAfiQByIA3EgDsQB4kAciANx0Jg7X+1BK4gaY4oAAAAASUVORK5CYII=" />
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB+klEQVR42u3cPQ4BURSAUWRKi1BjBSIapUWorEAnStHZDSWFiHVYigUQyfiZd2+cUyIiM1/uS55Huzvot+CZjkuAOBAH4kAciANxIA7EgTgQB4gDcSAOxIE4EAfiQByIA3GAOBAH4kAcNKn6xZvu57Xfdrg4uRkf6o0nJgeWFcSBOBAH4kAciAPEgTgQB+JAHIgDcSAOxIE4QByIA3EgDsSBOBAH4kAciAPEgTgQB+JAHBRXZfzQX/8Lmzhul7PJgWUFcSAOxAHiQByIg29LuQkWaqfI5EAcIA7EgTgQB+JAHIgDcSAOxAHiQBy8JeVX9sv1KstH3W22JgeWFcQB4kAciANxIA5KS7kJlnpnyeRAHIgDcYA4EAfiQByIA3GQQOUSNOw6mz4+ODocxSGLV09FS8SyUr6MWq8Rxz+WEbAPv1up543TAnXv93U2DbK+mBxRZkbA+SEOxJFnbMQZHuJAHIgDcSAOivK7FUyOEj7Z6IywSSoOxJFqePhuRR+hyxBHuD5CnfcRR6A+op0Ec0yw6T6cISXNeLCsIA7EgTgQB+JAHIgDcSAOEAfiQByIA3EgDsSBOBAH4gBxIA7EgTgQB+JAHIgDcfBP2t1B31XA5EAciANxIA7EgTgQB+JAHCAOxIE4EAfiQByIA3EgDsQB4kAciANx0Jg7X+1BK4gaY4oAAAAASUVORK5CYII=" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  html, body { margin: 0; background: #ECEFEC; }
+  body { -webkit-font-smoothing: antialiased; }
+  #racine { min-height: 100vh; }
+
+  /* Les champs héritent de la typographie et gardent une hauteur d'une ligne :
+     sans cela, certains navigateurs les étirent démesurément. */
+  input, select, textarea, button { font: inherit; color: inherit; }
+  /* Tailwind est injecté après ce bloc : sans priorité, ses règles l'emportent. */
+  input:not([type="file"]), select {
+    height: 2.25rem !important;
+    min-height: 0 !important;
+    max-height: 2.25rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    line-height: 2.25rem !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  select { -webkit-appearance: menulist; appearance: menulist; }
+  input[type="date"], input[type="time"] { -webkit-appearance: none; }
+  textarea { padding: 0 !important; border: 0 !important; background: transparent !important; }
+
+  /* Boutons flottants : dégagés de la barre d'accueil de l'iPhone */
+  .zone-basse { bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 0.5rem)) !important; }
+  /* Zones sûres de l'iPhone quand l'app tourne en plein écran */
+  header { padding-top: max(1.5rem, env(safe-area-inset-top)); }
+</style>
+</head>
+<body>
+<div id="racine"></div>
+<div id="panne" style="display:none;margin:2rem auto;max-width:34rem;padding:1rem;border-radius:.75rem;background:#F6E3DF;color:#B23A2F;font:14px/1.5 -apple-system,sans-serif"></div>
+<noscript>Cette application a besoin de JavaScript.</noscript>
+<script>
+  function signaler(texte, grave) {
+    var b = document.getElementById("panne");
+    b.style.display = "block";
+    b.style.background = grave ? "#F6E3DF" : "#F3EEE1";
+    b.style.color = grave ? "#B23A2F" : "#7A5C1E";
+    b.textContent = texte;
+
+    // Un incident signalé doit pouvoir être écarté : sans cela, une erreur
+    // sans conséquence reste affichée comme si l'application était en panne.
+    if (!b.querySelector("button")) {
+      var f = document.createElement("button");
+      f.textContent = "Fermer";
+      f.style.cssText = "margin-left:.75rem;text-decoration:underline;font:inherit;color:inherit;background:none;border:0";
+      f.onclick = function () { b.style.display = "none"; };
+      b.appendChild(f);
+    }
+  }
+
+  window.addEventListener("error", function (e) {
+    // Le navigateur masque le détail des erreurs venues d'un autre domaine.
+    if (!e.message || e.message === "Script error.") {
+      signaler(
+        "Un script externe a signalé une erreur dont le navigateur masque le détail. " +
+        "L'application continue de fonctionner ; préviens-moi si quelque chose ne répond plus.",
+        false
+      );
+      return;
+    }
+    var ou = e.filename ? " (" + String(e.filename).split("/").pop() + ":" + e.lineno + ")" : "";
+    signaler("Erreur : " + e.message + ou, true);
+  });
+
+  // Une promesse rejetée sans traitement ne déclenche pas l'événement « error ».
+  window.addEventListener("unhandledrejection", function (e) {
+    var r = e.reason;
+    var m = (r && (r.message || r.error_description || r.msg)) || String(r || "");
+    signaler("Requête échouée : " + m, true);
+  });
+
+  window.addEventListener("load", function () {
+    if (!window.React || !window.ReactDOM) {
+      signaler("React n'a pas pu être chargé. Vérifie la connexion, ou héberge la page pour lever le blocage des scripts externes.", true);
+    } else if (!window.Babel) {
+      signaler("Babel n'a pas pu être chargé.", true);
+    } else if (!window.supabase) {
+      signaler("La bibliothèque Supabase n'a pas pu être chargée : les données ne seront pas enregistrées.", true);
+    }
+  });
+</script>
+<script type="text/babel">
+const { useState, useEffect, useMemo, useRef } = React;
+
+/* ---------- Icônes ---------- */
+const Svg = ({ size = 16, color = "currentColor", className, children }) =>
+  React.createElement(
+    "svg",
+    {
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: color,
+      strokeWidth: 1.8,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
+      className,
+      "aria-hidden": "true",
+    },
+    children
+  );
+const trace = (d) => (p) => <Svg {...p}><path d={d} /></Svg>;
+
+const Plus = trace("M12 5v14M5 12h14");
+const X = trace("M18 6 6 18M6 6l12 12");
+const Check = trace("M20 6 9 17l-5-5");
+const ChevronRight = trace("M9 18l6-6-6-6");
+const Bell = trace("M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10.3 21a2 2 0 0 0 3.4 0");
+const Trash2 = trace("M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 10v7M14 10v7");
+const Building2 = trace("M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1");
+const GraduationCap = trace("M22 10 12 5 2 10l10 5 10-5zM6 12v5c0 1.3 3 3 6 3s6-1.7 6-3v-5");
+const Phone = trace("M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z");
+const Mail = trace("M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6");
+const LinkIcon = trace("M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.7 1.7M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.7-1.7");
+const Search = (p) => (
+  <Svg {...p}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="M21 21l-4.3-4.3" />
+  </Svg>
+);
+const Copy = (p) => (
+  <Svg {...p}>
+    <rect x="9" y="9" width="12" height="12" rx="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </Svg>
+);
+const AlertCircle = (p) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 8v5M12 16h.01" />
+  </Svg>
+);
+const AlertTriangle = (p) => (
+  <Svg {...p}>
+    <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+    <path d="M12 9v4M12 17h.01" />
+  </Svg>
+);
+
+/* ---------- Direction visuelle ---------- */
+const THEMES = {
+  clair: {
+    ink: "#0C2B2A",      // surface sombre (en-tête, boutons pleins)
+    inkSoft: "#1B4340",
+    surInk: "#ECEFEC",   // texte posé sur cette surface
+    texte: "#0C2B2A",    // texte courant
+    paper: "#ECEFEC",    // fond de page
+    card: "#FFFFFF",
+    line: "#D7DED9",
+    muted: "#5F6B66",
+    ocre: "#C08A2E",
+    teal: "#12857A",
+    vert: "#2F6B4F",
+    brique: "#B23A2F",
+    gris: "#8A918C",
+  },
+  sombre: {
+    ink: "#0A1917",
+    inkSoft: "#1E4C47",
+    surInk: "#E7EEEB",
+    texte: "#E7EEEB",
+    paper: "#101F1D",
+    card: "#18302C",
+    line: "#2B4440",
+    muted: "#9BABA6",
+    ocre: "#D9A34A",
+    teal: "#3FB3A6",
+    vert: "#63A882",
+    brique: "#D26B5C",
+    gris: "#8A968F",
+  },
+};
+
+// Objet mutable : toutes les lectures se font au rendu, un changement de thème
+// suffit donc à repeindre l'écran.
+const C = { ...THEMES.clair };
+const appliquerTheme = (nom) => Object.assign(C, THEMES[nom] || THEMES.clair);
+
+const F = {
+  display: "ui-serif, 'New York', Georgia, serif",
+  body: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', ui-sans-serif, system-ui, sans-serif",
+  mono: "ui-monospace, 'SF Mono', Menlo, monospace",
+};
+
+const STATUTS = [
+  { id: "a_contacter", label: "À contacter", couleur: "ocre" },
+  { id: "envoyee", label: "Candidature envoyée", couleur: "teal" },
+  { id: "relance", label: "Relance envoyée", couleur: "inkSoft" },
+  { id: "entretien", label: "Entretien", couleur: "teal" },
+  { id: "attente", label: "En attente de réponse", couleur: "muted" },
+  { id: "accepte", label: "Accepté", couleur: "vert" },
+  { id: "refuse", label: "Refusé", couleur: "brique" },
+  { id: "abandonne", label: "Abandonné", couleur: "gris" },
+];
+const couleurStatut = (id) => C[statut(id).couleur] || C.muted;
+
+const CLOS = ["accepte", "refuse", "abandonne"];
+
+const SOURCES = [
+  "Indeed", "Monster", "LinkedIn", "APEC", "France Travail",
+  "Welcome to the Jungle", "Agence d'intérim", "Candidature spontanée",
+  "Cooptation", "Salon / forum", "Autre",
+];
+
+// Chaque statut appelle sa propre date d'action ; seul « À contacter » attend en plus un rappel.
+const DATES_STATUT = {
+  a_contacter: { action: "Appel prévu le", rappel: true },
+  envoyee: { action: "Candidature envoyée le", rappel: false },
+  relance: { action: "Relance envoyée le", rappel: false },
+  entretien: { action: "Entretien le", rappel: false, heure: true },
+  attente: { action: "En attente depuis le", rappel: false },
+  accepte: { action: "Accepté le", rappel: false },
+  refuse: { action: "Refusé le", rappel: false },
+  abandonne: { action: "Abandonné le", rappel: false },
+};
+const champsDates = (id) => DATES_STATUT[id] || DATES_STATUT.a_contacter;
+const statut = (id) => STATUTS.find((s) => s.id === id) || STATUTS[0];
+
+/* ---------- Raccordement Supabase ----------
+   La clé publiable est faite pour circuler dans le navigateur : ce n'est pas
+   un secret. Ce sont les politiques RLS, côté serveur, qui cloisonnent les
+   données — un utilisateur ne peut lire que ses propres lignes, quoi qu'il
+   envoie depuis la console. */
+const SUPABASE_URL = "https://zokfowfdnkfzevvshday.supabase.co";
+const SUPABASE_CLE = "sb_publishable_uO4HMnii5YXIodznF9dr0A_A7T0u7wa";
+
+const sb = window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_CLE, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        // Le lien de confirmation renvoie ici avec un jeton dans l'adresse :
+        // la bibliothèque le consomme et ouvre la session.
+        detectSessionInUrl: true,
+        flowType: "pkce",
+      },
+    })
+  : null;
+
+/* Ouverte depuis un fichier local ou un aperçu, la page n'a pas d'origine web :
+   les requêtes vers le serveur sont refusées avant même de partir. Autant le
+   dire clairement plutôt que de laisser remonter un « Load failed » opaque. */
+const ORIGINE_WEB = /^https?:$/.test(location.protocol);
+const AIDE_ORIGINE =
+  "Cette page doit être ouverte depuis son adresse Netlify, pas depuis " +
+  "l'aperçu d'un fichier : l'aperçu bloque les échanges avec le serveur.";
+
+// La clé Anthropic reste sur l'appareil : la placer en base la rendrait
+// lisible par tout client authentifié sur ce profil.
+const CLE_API_LOCALE = "cleApi:v1";
+
+const REGLAGES_DEFAUT = { nom: "", email: "", photo: "", theme: "auto", fond: "brume", image: "", cleApi: "", recherche: true };
+
+// Fonds générés en code : aucune ressource externe, donc rien qui puisse être bloqué.
+const FONDS = {
+  uni: { nom: "Uni", style: () => ({ background: C.paper }) },
+  brume: {
+    nom: "Brume",
+    style: () => ({
+      backgroundColor: C.paper,
+      backgroundImage: `radial-gradient(120% 80% at 100% 0%, ${C.teal}33, transparent 60%), radial-gradient(90% 70% at 0% 100%, ${C.ocre}26, transparent 55%)`,
+    }),
+  },
+  papier: {
+    nom: "Papier",
+    style: () => ({
+      backgroundColor: C.paper,
+      backgroundImage: `linear-gradient(180deg, ${C.card}, ${C.paper} 45%)`,
+    }),
+  },
+  horizon: {
+    nom: "Horizon",
+    style: () => ({
+      backgroundColor: C.paper,
+      backgroundImage: `linear-gradient(160deg, ${C.ink}1f, transparent 40%), radial-gradient(80% 50% at 50% 100%, ${C.vert}26, transparent 60%)`,
+    }),
+  },
+};
+
+const styleFond = (r) =>
+  r.fond === "image" && r.image
+    ? {
+        backgroundColor: C.paper,
+        backgroundImage: `linear-gradient(${C.paper}cc, ${C.paper}cc), url(${r.image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }
+    : (FONDS[r.fond] || FONDS.brume).style();
+
+// Réduit une image choisie sur l'appareil avant de la stocker.
+const imageReduite = (fichier, cote) =>
+  new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = () => reject(new Error("lecture impossible"));
+    fr.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("image illisible"));
+      img.onload = () => {
+        const ratio = Math.min(1, cote / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * ratio);
+        c.height = Math.round(img.height * ratio);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL("image/jpeg", 0.75));
+      };
+      img.src = String(fr.result);
+    };
+    fr.readAsDataURL(fichier);
+  });
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+// Comparaison tolérante : casse, accents et espaces superflus ignorés.
+const cle = (t) =>
+  String(t || "").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ");
+
+/* ---------- Dates ---------- */
+const today = () => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+const parse = (s) => {
+  if (!s) return null;
+  const [y, m, j] = s.split("-").map(Number);
+  if (!y || !m || !j) return null;
+  return new Date(y, m - 1, j);
+};
+const joursRestants = (s) => {
+  const d = parse(s);
+  if (!d) return null;
+  return Math.round((d - today()) / 86400000);
+};
+const dateCourte = (s) => {
+  const d = parse(s);
+  if (!d) return "";
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+};
+const isoJour = (d) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+// Rouge à un jour ou moins, ocre jusqu'à cinq jours, gris au-delà.
+// Une date déjà passée repasse au gris, sauf pour un rappel resté en souffrance.
+const couleurEcheance = (n, retardRouge = false) => {
+  if (n === null) return C.muted;
+  if (n < 0) return retardRouge ? C.brique : C.muted;
+  if (n <= 1) return C.brique;
+  if (n <= 5) return C.ocre;
+  return C.muted;
+};
+
+const compteur = (n) => {
+  if (n === null) return "";
+  if (n < 0) return `retard ${Math.abs(n)} j`;
+  if (n === 0) return "aujourd'hui";
+  if (n === 1) return "demain";
+  return `J−${n}`;
+};
+
+/* ---------- Contrôle des champs ---------- */
+const MAX = {
+  nom: 80, intitule: 120, contactNom: 80, email: 120,
+  lien: 300, commentaire: 2000,
+};
+const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const RE_TEL = /^[+(]?[\d][\d\s.\-()]{5,19}$/;
+
+const normaliserLien = (v) => {
+  const t = (v || "").trim();
+  if (!t) return "";
+  return /^https?:\/\//i.test(t) ? t : `https://${t}`;
+};
+const lienValide = (v) => {
+  try {
+    const u = new URL(normaliserLien(v));
+    return u.hostname.includes(".") && !u.hostname.endsWith(".");
+  } catch {
+    return false;
+  }
+};
+const tropLong = (v, n) => (v || "").trim().length > n;
+
+/* Erreurs bloquantes : l'enregistrement s'arrête. */
+function verifier(d, initial = {}) {
+  const e = {};
+  const rappelModifie = d.dateRappel && d.dateRappel !== (initial.dateRappel || "");
+  if (!d.nom.trim()) e.nom = "Ce champ est obligatoire.";
+  else if (tropLong(d.nom, MAX.nom)) e.nom = `${MAX.nom} caractères maximum.`;
+
+  if (tropLong(d.intitule, MAX.intitule)) e.intitule = `${MAX.intitule} caractères maximum.`;
+  if (tropLong(d.contactNom, MAX.contactNom)) e.contactNom = `${MAX.contactNom} caractères maximum.`;
+
+  if (d.tel.trim() && !RE_TEL.test(d.tel.trim()))
+    e.tel = "Numéro invalide. Exemple : 06 12 34 56 78";
+  if (d.email.trim() && !RE_EMAIL.test(d.email.trim()))
+    e.email = "Adresse invalide. Exemple : contact@entreprise.fr";
+  if (d.lien.trim() && (!lienValide(d.lien) || tropLong(d.lien, MAX.lien)))
+    e.lien = "Adresse web invalide. Exemple : www.cnam.fr";
+
+  if (d.dateContact && !parse(d.dateContact)) e.dateContact = "Date incomplète.";
+  if (d.heure && !/^\d{1,2}:\d{2}$/.test(d.heure)) e.heure = "Heure incomplète.";
+  if (d.dateRappel && !parse(d.dateRappel)) e.dateRappel = "Date incomplète.";
+  else if (rappelModifie && joursRestants(d.dateRappel) < 0)
+    e.dateRappel = "Choisis aujourd'hui ou une date à venir.";
+
+  if (tropLong(d.commentaire, MAX.commentaire)) e.commentaire = `${MAX.commentaire} caractères maximum.`;
+  return e;
+}
+
+/* Alertes : signalées, mais l'enregistrement reste possible. */
+function alerter(d) {
+  const a = {};
+  const dc = parse(d.dateContact);
+  const dr = parse(d.dateRappel);
+  const j = joursRestants(d.dateRappel);
+  if (j !== null && j < 0 && !CLOS.includes(d.statutId))
+    a.dateRappel = "Rappel en retard : replanifie-le ou clôture la piste.";
+  else if (dc && dr && dr < dc) a.dateRappel = "Le rappel est antérieur à la prise de contact.";
+  if (d.heure && !d.dateContact) a.heure = "Heure indiquée sans date d'entretien.";
+  if (champsDates(d.statutId).rappel && !d.dateRappel)
+    a.statutId = "Sans date de rappel, cette piste ne remontera pas dans les relances.";
+  return a;
+}
+
+/* ---------- Modèle ---------- */
+const vide = () => ({
+  id: uid(),
+  type: "entreprise",
+  nom: "",
+  intitule: "",
+  contactNom: "",
+  tel: "",
+  email: "",
+  lien: "",
+  statutId: "a_contacter",
+  dateContact: "",
+  dateRappel: "",
+  heure: "",
+  historique: [],
+  source: "",
+  commentaire: "",
+  maj: Date.now(),
+});
+
+/* ---------- Accès aux données ----------
+   Les fiches restent plates côté interface. La base, elle, est normalisée :
+   organismes, contacts, pistes, événements. Les deux traducteurs ci-dessous
+   sont la seule frontière — aucun composant d'affichage n'a été modifié. */
+
+const SELECTION = `
+  id, intitule, statut, date_contact, date_rappel, heure, commentaire, maj_le,
+  organismes ( id, nom, type, lien, source ),
+  contacts ( id, nom, tel, email ),
+  evenements ( statut, date_etape, heure, note, cree_le )
+`;
+
+const RE_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const estIdBase = (v) => RE_UUID.test(String(v || ""));
+
+const hhmm = (t) => String(t || "").slice(0, 5);
+const nul = (v) => {
+  const t = String(v == null ? "" : v).trim();
+  return t === "" ? null : t;
+};
+
+// Ligne de la base → fiche telle que l'interface la manipule.
+const versFiche = (r) => ({
+  id: r.id,
+  type: (r.organismes && r.organismes.type) || "entreprise",
+  nom: (r.organismes && r.organismes.nom) || "",
+  intitule: r.intitule || "",
+  contactNom: (r.contacts && r.contacts.nom) || "",
+  tel: (r.contacts && r.contacts.tel) || "",
+  email: (r.contacts && r.contacts.email) || "",
+  lien: (r.organismes && r.organismes.lien) || "",
+  source: (r.organismes && r.organismes.source) || "",
+  statutId: r.statut,
+  dateContact: r.date_contact || "",
+  dateRappel: r.date_rappel || "",
+  heure: hhmm(r.heure),
+  commentaire: r.commentaire || "",
+  historique: (r.evenements || [])
+    .slice()
+    .sort((a, b) => new Date(a.cree_le) - new Date(b.cree_le))
+    .map((e) => ({
+      statutId: e.statut,
+      date: e.date_etape || "",
+      heure: hhmm(e.heure),
+      note: e.note || "",
+      quand: new Date(e.cree_le).getTime(),
+    })),
+  maj: new Date(r.maj_le).getTime(),
+});
+
+// Fiche de l'interface → arguments de la fonction SQL enregistrer_piste.
+const versBase = (p) => ({
+  p_id: estIdBase(p.id) ? p.id : null,
+  p_type: p.type || "entreprise",
+  p_nom: String(p.nom || "").trim(),
+  p_intitule: nul(p.intitule),
+  p_contact_nom: nul(p.contactNom),
+  p_tel: nul(p.tel),
+  p_email: nul(p.email),
+  p_lien: nul(p.lien),
+  p_source: nul(p.source),
+  p_statut: p.statutId || "a_contacter",
+  p_date_contact: nul(p.dateContact),
+  p_date_rappel: nul(p.dateRappel),
+  p_heure: nul(p.heure),
+  p_commentaire: nul(p.commentaire),
+});
+
+const chargerFiches = async () => {
+  const { data, error } = await sb
+    .from("pistes")
+    .select(SELECTION)
+    .order("maj_le", { ascending: false });
+  if (error) throw error;
+  return (data || []).map(versFiche);
+};
+
+const ecrireFiche = async (p) => {
+  const { error } = await sb.rpc("enregistrer_piste", versBase(p));
+  if (error) throw error;
+};
+
+const effacerFiche = async (id) => {
+  const { error } = await sb.from("pistes").delete().eq("id", id);
+  if (error) throw error;
+};
+
+/* Le bilan est calculé par la base, pas par le navigateur. Les moyennes, les
+   taux et les délais sont des agrégats : les exprimer en SQL évite de rejouer
+   côté client une logique que le serveur fait mieux, et garde une seule
+   définition de chaque indicateur. */
+const chargerBilan = async () => {
+  const [synthese, statuts, sources, dormantes] = await Promise.all([
+    sb.from("v_synthese").select("*").maybeSingle(),
+    sb.from("v_bilan_statuts").select("*"),
+    sb.from("v_rendement_source").select("*"),
+    sb.from("v_pistes_dormantes").select("*"),
+  ]);
+  const souci = [synthese, statuts, sources, dormantes].find((r) => r.error);
+  if (souci) throw souci.error;
+
+  // v_bilan_statuts détaille par statut *et* par type ; le tableau de bord
+  // n'affiche que le total par statut.
+  const parStatut = {};
+  (statuts.data || []).forEach((r) => {
+    parStatut[r.statut] = (parStatut[r.statut] || 0) + Number(r.nombre);
+  });
+
+  return {
+    synthese: synthese.data || {},
+    statuts: parStatut,
+    sources: sources.data || [],
+    dormantes: dormantes.data || [],
+  };
+};
+
+const lireProfil = async () => {
+  const { data, error } = await sb
+    .from("profils")
+    .select("nom, email, photo_url, reglages")
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+};
+
+const ecrireProfil = async (id, reglages) => {
+  // cleApi volontairement retirée : elle ne quitte pas l'appareil.
+  const { cleApi, ...partageables } = reglages;
+  const { error } = await sb
+    .from("profils")
+    .update({
+      nom: reglages.nom || "",
+      photo_url: reglages.photo || null,
+      reglages: partageables,
+    })
+    .eq("id", id);
+  if (error) throw error;
+};
+
+// Messages du service traduits en français, sans jargon.
+const traduire = (e) => {
+  const m = String((e && e.message) || e || "");
+  if (/Invalid login credentials/i.test(m)) return "E-mail ou mot de passe incorrect.";
+  if (/User already registered/i.test(m)) return "Un compte utilise déjà cet e-mail.";
+  if (/Password should be at least/i.test(m)) return "Mot de passe trop court (6 caractères minimum).";
+  if (/Email not confirmed/i.test(m)) return "Adresse non confirmée : ouvre le lien reçu par e-mail.";
+  if (/rate limit|too many/i.test(m)) return "Trop de tentatives. Patiente une minute.";
+  if (/duplicate key|organismes_unicite/i.test(m)) return "Cet organisme figure déjà au carnet.";
+  if (/Failed to fetch|NetworkError|Load failed/i.test(m))
+    return ORIGINE_WEB
+      ? "Connexion au serveur impossible. Vérifie ton accès à internet."
+      : AIDE_ORIGINE;
+  return m || "Une erreur est survenue.";
+};
+
+/* ---------- Import d'une sauvegarde texte ---------- */
+const idDepuisLabel = (l) =>
+  (STATUTS.find((s) => s.label.toLowerCase() === String(l).trim().toLowerCase()) || STATUTS[0]).id;
+
+function analyserExport(texte) {
+  const blocs = String(texte).split(/\n\s*—[\s—]*—\s*\n/).map((b) => b.trim()).filter(Boolean);
+  const pistes = [];
+  for (const bloc of blocs) {
+    const p = vide();
+    let dernier = null;
+    for (const ligne of bloc.split("\n")) {
+      const m = ligne.match(/^([^:\n]{2,20})\s*:\s*(.*)$/);
+      const cle = m ? m[1].trim().toLowerCase() : null;
+      const val = m ? m[2].trim() : null;
+      switch (cle) {
+        case "entreprise": p.type = "entreprise"; p.nom = val; dernier = "nom"; break;
+        case "formation": p.type = "formation"; p.nom = val; dernier = "nom"; break;
+        case "intitulé": p.intitule = val; dernier = "intitule"; break;
+        case "contact": p.contactNom = val; dernier = "contactNom"; break;
+        case "téléphone": p.tel = val; dernier = "tel"; break;
+        case "e-mail":
+        case "email": p.email = val; dernier = "email"; break;
+        case "lien": p.lien = val; dernier = "lien"; break;
+        case "offre vue sur": p.source = val; dernier = null; break;
+        case "statut": p.statutId = idDepuisLabel(val); dernier = null; break;
+        case "contacté le":
+        case "appel prévu le":
+        case "candidature envoyée le":
+        case "relance envoyée le":
+        case "entretien le":
+        case "en attente depuis le":
+        case "accepté le":
+        case "refusé le":
+        case "abandonné le": p.dateContact = val; dernier = null; break;
+        case "heure": p.heure = val; dernier = null; break;
+        case "rappel": p.dateRappel = val; dernier = null; break;
+        case "commentaire": p.commentaire = val; dernier = "commentaire"; break;
+        case "historique": p.historique = []; dernier = "historique"; break;
+        case "conclusion": dernier = null; break;
+        default:
+          if (dernier === "historique") {
+            const n = ligne.trim().match(/^note\s*:\s*(.*)$/i);
+            if (n) {
+              const q = p.historique[p.historique.length - 1];
+              if (q) q.note = n[1];
+              break;
+            }
+            const e = ligne.trim().match(/^(\d{4}-\d{2}-\d{2})?\s*(\d{1,2}:\d{2})?\s*·?\s*(.+)$/);
+            if (e && e[3])
+              p.historique.push({
+                date: e[1] || "",
+                heure: e[2] || "",
+                statutId: idDepuisLabel(e[3]),
+                quand: Date.now(),
+              });
+          } else if (dernier && ligne.trim()) {
+            // Ligne de continuation : elle appartient au champ précédent.
+            p[dernier] += (p[dernier] ? "\n" : "") + ligne.trim();
+          }
+      }
+    }
+    if (p.nom) pistes.push(p);
+  }
+  return pistes;
+}
+
+function CarnetDeRecherche() {
+  const [items, setItems] = useState([]);
+  const [chargement, setChargement] = useState(true);
+  const [panne, setPanne] = useState(false);
+  const [derniere, setDerniere] = useState(null);
+  const [edition, setEdition] = useState(null);
+  const [modeEdition, setModeEdition] = useState(false);
+  const [statutsFiltre, setStatutsFiltre] = useState([]);   // vide = tous
+  const [vue, setVue] = useState("carnet");                 // carnet | bilan
+  const [bilan, setBilan] = useState(null);
+  const [bilanEnCours, setBilanEnCours] = useState(false);
+  const [bilanErreur, setBilanErreur] = useState("");
+  const [aSupprimer, setASupprimer] = useState(null);
+  const [sauvegardeOuverte, setSauvegardeOuverte] = useState(false);
+  const [recherche, setRecherche] = useState("");
+  const [filtre, setFiltre] = useState("tout");
+  const [page, setPage] = useState(1);
+  const [doublonsIgnores, setDoublonsIgnores] = useState(false);
+  const [session, setSession] = useState(null);   // utilisateur Supabase, ou null
+  const [erreurBase, setErreurBase] = useState("");
+  const [recuperation, setRecuperation] = useState(false);
+  const [reglages, setReglages] = useState(REGLAGES_DEFAUT);
+  const [reglagesOuverts, setReglagesOuverts] = useState(false);
+  const [envoiOuvert, setEnvoiOuvert] = useState(false);
+  const [assistantOuvert, setAssistantOuvert] = useState(false);
+  const [, repeindre] = useState(0);
+
+  const majReglages = (suite) => {
+    setReglages(suite);
+    try {
+      if (suite.cleApi) localStorage.setItem(CLE_API_LOCALE, suite.cleApi);
+      else localStorage.removeItem(CLE_API_LOCALE);
+    } catch {}
+    if (session) ecrireProfil(session.id, suite).catch((e) => setErreurBase(traduire(e)));
+  };
+
+  // Applique le thème choisi, et suit le réglage du système en mode automatique.
+  useEffect(() => {
+    const mq =
+      typeof window !== "undefined" && window.matchMedia
+        ? window.matchMedia("(prefers-color-scheme: dark)")
+        : null;
+    const calculer = () => {
+      const nom = reglages.theme === "auto" ? (mq && mq.matches ? "sombre" : "clair") : reglages.theme;
+      appliquerTheme(nom);
+      repeindre((n) => n + 1);
+    };
+    calculer();
+    if (mq && reglages.theme === "auto" && mq.addEventListener) {
+      mq.addEventListener("change", calculer);
+      return () => mq.removeEventListener("change", calculer);
+    }
+  }, [reglages.theme]);
+  const [copie, setCopie] = useState(null);
+
+  // Suit la session Supabase : ouverture, fermeture, renouvellement du jeton.
+  useEffect(() => {
+    if (!sb) {
+      setErreurBase(
+        ORIGINE_WEB
+          ? "Bibliothèque Supabase non chargée : vérifie ta connexion."
+          : AIDE_ORIGINE
+      );
+      setChargement(false);
+      return;
+    }
+    if (!ORIGINE_WEB) setErreurBase(AIDE_ORIGINE);
+
+    // Lien de confirmation périmé, déjà utilisé, ou ouvert dans un autre
+    // navigateur que celui qui a lancé l'inscription.
+    const fragment = new URLSearchParams(String(location.hash || "").replace(/^#/, ""));
+    const souci = fragment.get("error_description") || fragment.get("error");
+    if (souci) {
+      setErreurBase(
+        /expired|invalid/i.test(souci)
+          ? "Ce lien de confirmation n'est plus valable. Relance une inscription pour en recevoir un nouveau."
+          : decodeURIComponent(souci.replace(/\+/g, " "))
+      );
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+    let vivant = true;
+    sb.auth.getSession().then(({ data }) => {
+      if (!vivant) return;
+      setSession((data && data.session && data.session.user) || null);
+      setChargement(false);
+    });
+    const { data: abo } = sb.auth.onAuthStateChange((evenement, s) => {
+      // Le lien de réinitialisation ouvre une session particulière : elle sert
+      // uniquement à choisir un nouveau mot de passe.
+      if (evenement === "PASSWORD_RECOVERY") setRecuperation(true);
+      setSession((s && s.user) || null);
+    });
+    return () => {
+      vivant = false;
+      if (abo && abo.subscription) abo.subscription.unsubscribe();
+    };
+  }, []);
+
+  // À chaque ouverture de session, on va chercher fiches et profil.
+  useEffect(() => {
+    if (!session) {
+      setItems([]);
+      setReglages(REGLAGES_DEFAUT);
+      return;
+    }
+    let vivant = true;
+    (async () => {
+      try {
+        const [fiches, profil] = await Promise.all([chargerFiches(), lireProfil()]);
+        if (!vivant) return;
+        setItems(fiches);
+        let cleApi = "";
+        try { cleApi = localStorage.getItem(CLE_API_LOCALE) || ""; } catch {}
+        setReglages({
+          ...REGLAGES_DEFAUT,
+          ...((profil && profil.reglages) || {}),
+          nom: (profil && profil.nom) || "",
+          email: (profil && profil.email) || session.email || "",
+          photo: (profil && profil.photo_url) || "",
+          cleApi,
+        });
+        setErreurBase("");
+      } catch (e) {
+        if (vivant) setErreurBase(traduire(e));
+      }
+    })();
+    return () => { vivant = false; };
+  }, [session]);
+
+  /* Rechargé à chaque ouverture de l'onglet : une piste modifiée entre-temps
+     rendrait un bilan périmé, et le calcul ne coûte que quelques agrégats. */
+  const rafraichirBilan = async () => {
+    setBilanEnCours(true);
+    setBilanErreur("");
+    try {
+      setBilan(await chargerBilan());
+    } catch (e) {
+      setBilanErreur(traduire(e));
+    }
+    setBilanEnCours(false);
+  };
+
+  useEffect(() => {
+    if (vue === "bilan" && session) rafraichirBilan();
+  }, [vue, session, items]);
+
+  const rafraichir = async () => {
+    try {
+      setItems(await chargerFiches());
+      setErreurBase("");
+      setDerniere(new Date());
+      return true;
+    } catch (e) {
+      setErreurBase(traduire(e));
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (copie !== "ok") return;
+    const t = setTimeout(() => setCopie(null), 2500);
+    return () => clearTimeout(t);
+  }, [copie]);
+
+  /* Après chaque écriture, la liste est rechargée depuis le serveur plutôt que
+     recalculée localement. Les déclencheurs SQL produisent l'historique et les
+     horodatages : les deviner côté navigateur reviendrait à dupliquer une
+     logique qui vit désormais en base. Le volume — quelques dizaines de
+     lignes — rend ce choix indolore. */
+  const enregistrer = async (fiches) => {
+    setPanne(false);
+    try {
+      for (const f of fiches) await ecrireFiche(f);
+      await rafraichir();
+    } catch (e) {
+      setPanne(true);
+      setErreurBase(traduire(e));
+    }
+  };
+
+  const connecter = async (email, mdp) => {
+    const { error } = await sb.auth.signInWithPassword({
+      email: String(email).trim(),
+      password: mdp,
+    });
+    return error ? traduire(error) : "";
+  };
+
+  const inscrire = async ({ nom, email, mdp }) => {
+    const { data, error } = await sb.auth.signUp({
+      email: String(email).trim(),
+      password: mdp,
+      options: { data: { nom } },
+    });
+    if (error) return traduire(error);
+    // Sans session immédiate, le service attend une confirmation par e-mail.
+    if (!data.session) return "Compte créé. Ouvre le lien de confirmation reçu par e-mail, puis connecte-toi.";
+    return "";
+  };
+
+  const demanderNouveauMotDePasse = async (email) => {
+    const { error } = await sb.auth.resetPasswordForEmail(String(email).trim(), {
+      redirectTo: location.origin,
+    });
+    return error ? traduire(error) : "";
+  };
+
+  // Depuis une session de récupération, l'ancien mot de passe n'est pas exigé :
+  // c'est le lien reçu par e-mail qui a fait office de preuve.
+  const definirMotDePasse = async (nouveau) => {
+    const { error } = await sb.auth.updateUser({ password: nouveau });
+    if (error) return traduire(error);
+    setRecuperation(false);
+    return "";
+  };
+
+  const deconnecter = async () => {
+    await sb.auth.signOut();
+    setReglagesOuverts(false);
+    setEdition(null);
+    setEnvoiOuvert(false);
+  };
+
+  // Supabase ne revérifie pas l'ancien mot de passe : on le fait ici, en
+  // rejouant une connexion, pour qu'une session laissée ouverte ne suffise pas.
+  const changerMotDePasse = async (ancien, nouveau) => {
+    if (!session || !session.email) return "Aucune session active.";
+    const { error: e1 } = await sb.auth.signInWithPassword({
+      email: session.email,
+      password: ancien,
+    });
+    if (e1) return "Ancien mot de passe incorrect.";
+    const { error: e2 } = await sb.auth.updateUser({ password: nouveau });
+    return e2 ? traduire(e2) : "";
+  };
+
+  // Passe les pistes retenues en « Candidature envoyée », datées du jour.
+  const marquerEnvoyees = (ids) => {
+    const jour = isoJour(today());
+    enregistrer(
+      items
+        .filter((i) => ids.includes(i.id))
+        .map((i) => ({ ...i, statutId: "envoyee", dateContact: jour, dateRappel: "", heure: "" }))
+    );
+  };
+
+  const importer = (nouvelles) => {
+    const connus = new Set(items.map((i) => cle(i.nom)));
+    enregistrer(nouvelles.filter((n) => !connus.has(cle(n.nom))));
+    setSauvegardeOuverte(false);
+  };
+
+  /* La fonction avecHistorique() a disparu : le déclencheur journaliser_statut,
+     côté base, enregistre désormais chaque changement d'étape. Aucun chemin
+     d'écriture ne peut plus l'oublier — y compris une modification faite
+     depuis un autre appareil. */
+  const valider = async (piste) => {
+    await enregistrer([piste]);
+    setEdition(null);
+  };
+
+  const supprimer = async (id) => {
+    setPanne(false);
+    try {
+      await effacerFiche(id);
+      const reste = await rafraichir();
+      setEdition(null);
+      setASupprimer(null);
+      if (reste && items.length <= 1) setModeEdition(false);
+    } catch (e) {
+      setPanne(true);
+      setErreurBase(traduire(e));
+    }
+  };
+
+  const relances = useMemo(
+    () =>
+      items
+        .filter((i) => i.dateRappel && !CLOS.includes(i.statutId))
+        .map((i) => ({ ...i, j: joursRestants(i.dateRappel) }))
+        .filter((i) => i.j !== null && i.j <= 7)
+        .sort((a, b) => a.j - b.j),
+    [items]
+  );
+
+  const enRetard = relances.filter((r) => r.j <= 0).length;
+  const nonEnregistre = !chargement && (panne || !!erreurBase);
+
+  let texteSync = "";
+  let couleurSync = "#8FB0AB";
+  if (nonEnregistre) {
+    texteSync = erreurBase || "enregistrement impossible — vérifie ta connexion";
+    couleurSync = "#E0A94A";
+  } else if (derniere) {
+    texteSync = "synchronisé à " + derniere.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  const prochaine = useMemo(
+    () =>
+      items
+        .filter((i) => i.dateRappel && !CLOS.includes(i.statutId))
+        .map((i) => i.dateRappel)
+        .sort()[0],
+    [items]
+  );
+
+  /* Deux postes chez le même employeur ne sont pas un doublon : c'est le cas
+     normal depuis que les pistes et les organismes sont deux tables distinctes.
+     Un doublon, c'est le même intitulé au même endroit — donc une fiche saisie
+     deux fois. Les pistes sans intitulé sont écartées : rien ne permet de les
+     distinguer, et les signaler à tort serait plus gênant qu'utile. */
+  const doublons = useMemo(() => {
+    const par = {};
+    items.forEach((i) => {
+      const organisme = cle(i.nom);
+      const poste = cle(i.intitule);
+      if (!organisme || !poste) return;
+      const k = organisme + " ¦ " + poste;
+      (par[k] = par[k] || []).push(i);
+    });
+    return Object.values(par).filter((g) => g.length > 1);
+  }, [items]);
+
+  /* Comptés sur la liste entière, pas sur la liste affichée : un compteur qui
+     bougerait à chaque sélection empêcherait de comparer les statuts entre eux. */
+  const comptesStatuts = useMemo(() => {
+    const m = {};
+    items.forEach((i) => { m[i.statutId] = (m[i.statutId] || 0) + 1; });
+    return m;
+  }, [items]);
+
+  const basculerStatut = (id) =>
+    setStatutsFiltre((liste) =>
+      liste.includes(id) ? liste.filter((x) => x !== id) : [...liste, id]
+    );
+
+  const listeAffichee = useMemo(() => {
+    const q = recherche.trim().toLowerCase();
+    return items
+      .filter((i) => (filtre === "tout" ? true : filtre === "actifs" ? !CLOS.includes(i.statutId) : i.type === filtre))
+      // Aucun statut coché : on n'écarte rien. Plusieurs cochés : on les cumule.
+      .filter((i) => statutsFiltre.length === 0 || statutsFiltre.includes(i.statutId))
+      .filter((i) =>
+        !q
+          ? true
+          : [i.nom, i.intitule, i.contactNom, i.commentaire, i.source]
+              .join(" ")
+              .toLowerCase()
+              .includes(q)
+      )
+      .sort((a, b) => {
+        const ca = CLOS.includes(a.statutId), cb = CLOS.includes(b.statutId);
+        if (ca !== cb) return ca ? 1 : -1;
+        const ja = a.dateRappel && !ca ? joursRestants(a.dateRappel) : null;
+        const jb = b.dateRappel && !cb ? joursRestants(b.dateRappel) : null;
+        if (ja !== null && jb !== null) return ja - jb;
+        if (ja !== null) return -1;
+        if (jb !== null) return 1;
+        return b.maj - a.maj;
+      });
+  }, [items, recherche, filtre, statutsFiltre]);
+
+  const PAR_PAGE = 10;
+  const nbPages = Math.max(1, Math.ceil(listeAffichee.length / PAR_PAGE));
+  const pageSure = Math.min(page, nbPages);
+  const pageAffichee = listeAffichee.slice((pageSure - 1) * PAR_PAGE, pageSure * PAR_PAGE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [recherche, filtre]);
+
+
+  const texteRappels = () =>
+    "Crée ces rappels dans mon iPhone, avec une alerte à 9 h le jour dit :\n\n" +
+    relances
+      .map(
+        (i) =>
+          `Relancer ${i.nom}${i.intitule ? " · " + i.intitule : ""} — le ${i.dateRappel}` +
+          (i.contactNom || i.tel ? `\n  contact : ${[i.contactNom, i.tel].filter(Boolean).join(" · ")}` : "")
+      )
+      .join("\n");
+
+  const texteComplet = () =>
+    items
+      .map((i) =>
+        [
+          `${i.type === "formation" ? "Formation" : "Entreprise"} : ${i.nom}`,
+          i.intitule && `Intitulé : ${i.intitule}`,
+          i.contactNom && `Contact : ${i.contactNom}`,
+          i.tel && `Téléphone : ${i.tel}`,
+          i.email && `E-mail : ${i.email}`,
+          i.lien && `Lien : ${i.lien}`,
+          i.source && `Offre vue sur : ${i.source}`,
+          `Statut : ${statut(i.statutId).label}`,
+          i.dateContact && `${champsDates(i.statutId).action} : ${i.dateContact}`,
+          i.heure && `Heure : ${i.heure}`,
+          i.dateRappel && `Rappel : ${i.dateRappel}`,
+          i.commentaire && `Commentaire : ${i.commentaire}`,
+          Array.isArray(i.historique) && i.historique.length
+            ? "Historique :\n" +
+              i.historique
+                .map(
+                  (h) =>
+                    `  ${h.date || ""}${h.heure ? " " + h.heure : ""} · ${statut(h.statutId).label}` +
+                    (h.note ? `\n    note : ${h.note.replace(/\n+/g, " / ")}` : "")
+                )
+                .join("\n")
+            : null,
+        ]
+          .filter(Boolean)
+          .join("\n")
+      )
+      .join("\n\n— — —\n\n");
+
+  const copier = async (texte) => {
+    if (!texte) return;
+    try {
+      await navigator.clipboard.writeText(texte);
+      setCopie("ok");
+    } catch {
+      setCopie(texte);
+    }
+  };
+
+  if (!chargement && session && recuperation) {
+    return <NouveauMotDePasse onValider={definirMotDePasse} />;
+  }
+
+  if (!chargement && !session) {
+    return (
+      <Connexion
+        onConnecter={connecter}
+        onInscrire={inscrire}
+        onOublie={demanderNouveauMotDePasse}
+        avertissement={erreurBase}
+      />
+    );
+  }
+
+  return (
+    <div className="min-h-screen w-full" style={{ ...styleFond(reglages), fontFamily: F.body, color: C.texte }}>
+      {/* En-tête */}
+      <header className="px-5 pt-6 pb-5" style={{ background: C.ink, color: C.surInk }}>
+        <div className="mx-auto flex w-full max-w-3xl items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h1 className="text-2xl leading-none sm:text-3xl" style={{ fontFamily: F.display }}>
+              Carnet de recherche
+            </h1>
+            <p className="mt-2 text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+              {items.length} piste{items.length > 1 ? "s" : ""}
+              {" · "}
+              {enRetard > 0
+                ? `${enRetard} en retard`
+                : relances.length > 0
+                ? `${relances.length} à relancer`
+                : prochaine
+                ? `prochaine le ${dateCourte(prochaine)}`
+                : "aucune relance"}
+            </p>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+          <button
+            onClick={() => setReglagesOuverts(true)}
+            className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full"
+            style={{ border: `1px solid #2E5450`, background: C.inkSoft }}
+            aria-label="Réglages et profil"
+          >
+            {reglages.photo ? (
+              <img src={reglages.photo} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <span className="text-sm" style={{ color: C.surInk }}>
+                {(reglages.nom || "?").trim().charAt(0).toUpperCase() || "?"}
+              </span>
+            )}
+          </button>
+          {nonEnregistre && (
+            <button
+              onClick={() => setSauvegardeOuverte(true)}
+              className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs"
+              style={{ border: "1px solid #7A6224", color: "#E0A94A" }}
+            >
+              <span style={{ fontSize: 16, lineHeight: 0 }}>•</span>
+              Sauvegarde
+            </button>
+          )}
+          </div>
+        </div>
+        {!chargement && texteSync && (
+          <p className="mt-2 text-xs" style={{ fontFamily: F.mono, color: couleurSync }}>
+            {texteSync}
+          </p>
+        )}
+      </header>
+
+      {/* Onglets */}
+      <nav className="mx-auto w-full max-w-3xl px-5 pt-4">
+        <div className="flex gap-1 rounded-lg p-1" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+          {[
+            { id: "carnet", label: "Carnet" },
+            { id: "bilan", label: "Tableau de bord" },
+          ].map((o) => (
+            <button
+              key={o.id}
+              onClick={() => setVue(o.id)}
+              aria-pressed={vue === o.id}
+              className="flex-1 rounded-md py-2 text-sm"
+              style={
+                vue === o.id
+                  ? { background: C.ink, color: C.surInk }
+                  : { background: "transparent", color: C.muted }
+              }
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {vue === "bilan" ? (
+        <TableauDeBord
+          bilan={bilan}
+          enCours={bilanEnCours}
+          erreur={bilanErreur}
+          onOuvrir={(id) => {
+            const p = items.find((i) => i.id === id);
+            if (p) setEdition(p);
+          }}
+        />
+      ) : (
+      <>
+
+      {copie && copie !== "ok" && (
+        <section className="mx-auto w-full max-w-3xl px-5 pt-4">
+          <p className="mb-1 text-xs" style={{ color: C.muted }}>
+            Copie automatique refusée : sélectionne le texte ci-dessous.
+          </p>
+          <textarea
+            readOnly
+            value={copie}
+            onFocus={(e) => e.target.select()}
+            className="w-full rounded-lg p-3 text-xs"
+            rows={6}
+            style={{ background: C.card, border: `1px solid ${C.line}`, fontFamily: F.mono }}
+          />
+          <button onClick={() => setCopie(null)} className="mt-1 text-xs underline" style={{ color: C.muted }}>
+            Masquer
+          </button>
+        </section>
+      )}
+
+      {/* Bandeau relances */}
+      {relances.length > 0 && (
+        <section className="mx-auto w-full max-w-3xl px-5 pt-5">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+              Relances · 7 jours
+            </h2>
+            <button
+              onClick={() => copier(texteRappels())}
+              className="flex items-center gap-1 text-xs"
+              style={{ color: C.teal }}
+            >
+              {copie === "ok" ? <Check size={13} /> : <Bell size={13} />}
+              {copie === "ok" ? "Copié" : "Créer les rappels"}
+            </button>
+          </div>
+          <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
+            {relances.map((r) => (
+              <button
+                key={r.id}
+                onClick={() => setEdition(r)}
+                className="shrink-0 rounded-lg px-3 py-3 text-left"
+                style={{
+                  background: C.card,
+                  minWidth: 172,
+                  borderLeft: `4px solid ${couleurEcheance(r.j, true)}`,
+                  boxShadow: "0 1px 2px rgba(12,43,42,.08)",
+                }}
+              >
+                <span
+                  className="block text-xs uppercase tracking-wider"
+                  style={{ fontFamily: F.mono, color: couleurEcheance(r.j, true) }}
+                >
+                  {compteur(r.j)}
+                </span>
+                <span className="mt-1 block truncate text-sm font-medium">{r.nom}</span>
+                <span className="mt-0.5 block truncate text-xs" style={{ color: C.muted }}>
+                  {r.intitule || statut(r.statutId).label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Recherche + filtres */}
+      <section className="mx-auto w-full max-w-3xl px-5 pt-5">
+        <div className="flex items-center gap-2 rounded-lg px-3 py-2" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+          <Search size={16} color={C.muted} />
+          <input
+            value={recherche}
+            onChange={(e) => setRecherche(e.target.value)}
+            placeholder="Chercher un nom, une note…"
+            className="w-full bg-transparent text-sm outline-none"
+          />
+          {recherche && (
+            <button onClick={() => setRecherche("")} aria-label="Effacer">
+              <X size={15} color={C.muted} />
+            </button>
+          )}
+        </div>
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex flex-1 gap-2 overflow-x-auto pb-1">
+          {[
+            { id: "tout", label: "Tout" },
+            { id: "actifs", label: "En cours" },
+            { id: "entreprise", label: "Entreprises" },
+            { id: "formation", label: "Formations" },
+          ].map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setFiltre(f.id)}
+              className="shrink-0 rounded-full px-3 py-1 text-xs"
+              style={
+                filtre === f.id
+                  ? { background: C.ink, color: C.surInk }
+                  : { background: "transparent", color: C.muted, border: `1px solid ${C.line}` }
+              }
+            >
+              {f.label}
+            </button>
+          ))}
+          </div>
+          {items.length > 0 && (
+            <button
+              onClick={() => { setModeEdition(!modeEdition); setASupprimer(null); }}
+              className="shrink-0 text-xs"
+              style={{ color: modeEdition ? C.brique : C.teal }}
+            >
+              {modeEdition ? "Terminé" : "Modifier"}
+            </button>
+          )}
+        </div>
+
+        {/* Filtre par statut : seuls les statuts présents au carnet sont proposés,
+            pour ne pas encombrer l'écran de cases toujours vides. */}
+        {items.length > 0 && (
+          <div className="mt-2 flex items-center gap-2">
+            <div className="flex flex-1 gap-2 overflow-x-auto pb-1">
+              {STATUTS.filter((st) => comptesStatuts[st.id]).map((st) => {
+                const actif = statutsFiltre.includes(st.id);
+                return (
+                  <button
+                    key={st.id}
+                    onClick={() => basculerStatut(st.id)}
+                    aria-pressed={actif}
+                    className="flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs"
+                    style={
+                      actif
+                        ? { background: couleurStatut(st.id), color: "#FFFFFF" }
+                        : { background: "transparent", color: C.muted, border: `1px solid ${C.line}` }
+                    }
+                  >
+                    <span
+                      className="inline-block h-1.5 w-1.5 rounded-full"
+                      style={{ background: actif ? "#FFFFFF" : couleurStatut(st.id) }}
+                    />
+                    {st.label}
+                    <span style={{ opacity: 0.75 }}>{comptesStatuts[st.id]}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {statutsFiltre.length > 0 && (
+              <button
+                onClick={() => setStatutsFiltre([])}
+                className="shrink-0 text-xs underline"
+                style={{ color: C.muted }}
+              >
+                Tout voir
+              </button>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Liste */}
+      {!chargement && doublons.length > 0 && !doublonsIgnores && (
+        <section className="mx-auto w-full max-w-3xl px-5 pt-4">
+          <div className="rounded-lg p-3 text-xs" style={{ background: "#F6EEDB", color: "#7A5A17" }}>
+            <p className="font-medium">
+              {doublons.length === 1 ? "Un doublon détecté" : `${doublons.length} doublons détectés`}
+            </p>
+            <ul className="mt-2 space-y-2">
+              {doublons.map((g) => (
+                <li key={g[0].id} className="flex items-center justify-between gap-3">
+                  <span className="min-w-0 flex-1 truncate">
+                    {g[0].nom} · {g[0].intitule} · {g.length} fiches
+                  </span>
+                  <button
+                    onClick={() => supprimer(g[g.length - 1].id)}
+                    className="shrink-0 underline"
+                  >
+                    Supprimer la plus récente
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={() => setDoublonsIgnores(true)} className="mt-2 underline">
+              Ignorer
+            </button>
+          </div>
+        </section>
+      )}
+
+      <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-4 lg:max-w-5xl">
+        {chargement ? (
+          <p className="py-10 text-center text-sm" style={{ color: C.muted }}>
+            Ouverture du carnet…
+          </p>
+        ) : listeAffichee.length === 0 ? (
+          <div className="py-14 text-center">
+            <p className="text-lg" style={{ fontFamily: F.display }}>
+              {items.length === 0 ? "Le carnet est vierge." : "Rien ne correspond."}
+            </p>
+            <p className="mx-auto mt-2 max-w-xs text-sm" style={{ color: C.muted }}>
+              {items.length === 0
+                ? "Ajoute une entreprise ou une formation pour lancer le suivi."
+                : "Change de filtre ou efface la recherche."}
+            </p>
+            {items.length === 0 && (
+              <button
+                onClick={() => setEdition(vide())}
+                className="mt-5 rounded-full px-4 py-2 text-sm"
+                style={{ background: C.ink, color: C.surInk }}
+              >
+                Ajouter une piste
+              </button>
+            )}
+          </div>
+        ) : (
+          <ul className="space-y-2 sm:grid sm:grid-cols-2 sm:gap-2 sm:space-y-0 xl:grid-cols-3">
+            {pageAffichee.map((i) => {
+              const s = statut(i.statutId);
+              const j = i.dateRappel && !CLOS.includes(i.statutId) ? joursRestants(i.dateRappel) : null;
+              return (
+                <li key={i.id} className="flex items-stretch gap-2">
+                  <button
+                    onClick={() => setEdition(i)}
+                    className="flex min-w-0 flex-1 items-center gap-3 rounded-lg px-3 py-3 text-left"
+                    style={{
+                      background: C.card,
+                      borderLeft: `4px solid ${couleurStatut(i.statutId)}`,
+                      opacity: CLOS.includes(i.statutId) ? 0.62 : 1,
+                      boxShadow: "0 1px 2px rgba(12,43,42,.06)",
+                    }}
+                  >
+                    <span className="mt-0.5 shrink-0" style={{ color: C.muted }}>
+                      {i.type === "formation" ? <GraduationCap size={17} /> : <Building2 size={17} />}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm font-medium">{i.nom}</span>
+                      <span className="mt-0.5 block truncate text-xs" style={{ color: C.muted }}>
+                        {[i.intitule, i.contactNom].filter(Boolean).join(" · ") || s.label}
+                      </span>
+                      <span className="mt-1 flex items-center gap-2 text-xs" style={{ fontFamily: F.mono }}>
+                        <span style={{ color: couleurStatut(i.statutId) }}>{s.label}</span>
+                        {j !== null ? (
+                          <span style={{ color: couleurEcheance(j, true) }}>
+                            · {dateCourte(i.dateRappel)} {compteur(j)}
+                          </span>
+                        ) : (
+                          i.dateContact && (
+                            <span style={{ color: couleurEcheance(joursRestants(i.dateContact)) }}>
+                              · {dateCourte(i.dateContact)}
+                              {i.heure ? ` ${i.heure}` : ""}
+                            </span>
+                          )
+                        )}
+                      </span>
+                    </span>
+                    <ChevronRight size={16} color={C.line} />
+                  </button>
+                  {modeEdition && (
+                    <button
+                      onClick={() =>
+                        aSupprimer === i.id ? supprimer(i.id) : setASupprimer(i.id)
+                      }
+                      className="shrink-0 rounded-lg px-3 text-xs"
+                      style={
+                        aSupprimer === i.id
+                          ? { background: C.brique, color: C.surInk }
+                          : { border: `1px solid ${C.brique}`, color: C.brique }
+                      }
+                    >
+                      {aSupprimer === i.id ? "Confirmer" : "Supprimer"}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        {nbPages > 1 && (
+          <div className="mt-5 flex items-center justify-between">
+            <button
+              onClick={() => setPage(pageSure - 1)}
+              disabled={pageSure === 1}
+              className="rounded-full px-3 py-1.5 text-xs"
+              style={{
+                border: `1px solid ${C.line}`,
+                color: pageSure === 1 ? C.line : C.texte,
+              }}
+            >
+              Page précédente
+            </button>
+            <span className="text-xs" style={{ fontFamily: F.mono, color: C.muted }}>
+              {pageSure} / {nbPages}
+            </span>
+            <button
+              onClick={() => setPage(pageSure + 1)}
+              disabled={pageSure === nbPages}
+              className="rounded-full px-3 py-1.5 text-xs"
+              style={{
+                border: `1px solid ${C.line}`,
+                color: pageSure === nbPages ? C.line : C.texte,
+              }}
+            >
+              Page suivante
+            </button>
+          </div>
+        )}
+      </main>
+
+      </>
+      )}
+
+      {/* Ajouter */}
+      <div className="zone-basse fixed bottom-6 left-5 flex gap-2">
+        <button
+          onClick={() => setAssistantOuvert(true)}
+          className="rounded-full px-4 py-3 text-sm"
+          style={{ background: C.card, color: C.texte, border: `1px solid ${C.line}`, boxShadow: "0 6px 18px rgba(0,0,0,.14)" }}
+        >
+          Assistant
+        </button>
+        <button
+          onClick={() => setEnvoiOuvert(true)}
+          className="rounded-full px-4 py-3 text-sm"
+          style={{ background: C.card, color: C.texte, border: `1px solid ${C.line}`, boxShadow: "0 6px 18px rgba(0,0,0,.14)" }}
+        >
+          CV
+        </button>
+      </div>
+
+      <button
+        onClick={() => setEdition(vide())}
+        className="zone-basse fixed bottom-6 right-5 flex h-14 w-14 items-center justify-center rounded-full"
+        style={{ background: C.ink, color: C.surInk, boxShadow: "0 6px 18px rgba(12,43,42,.28)" }}
+        aria-label="Ajouter une piste"
+      >
+        <Plus size={24} />
+      </button>
+
+      {edition && (
+        <Fiche
+          piste={edition}
+          onFermer={() => setEdition(null)}
+          onValider={valider}
+          onSupprimer={supprimer}
+          existe={items.some((i) => i.id === edition.id)}
+        />
+      )}
+
+      {assistantOuvert && (
+        <Assistant
+          cleApi={reglages.cleApi}
+          recherche={reglages.recherche !== false}
+          items={items}
+          onProposer={(f) => {
+            setEdition({ ...vide(), ...f });
+            setAssistantOuvert(false);
+          }}
+          onFermer={() => setAssistantOuvert(false)}
+        />
+      )}
+
+      {envoiOuvert && (
+        <EnvoiCV
+          items={items}
+          onAppliquer={marquerEnvoyees}
+          onFermer={() => setEnvoiOuvert(false)}
+        />
+      )}
+
+      {reglagesOuverts && (
+        <Reglages
+          reglages={reglages}
+          onChange={majReglages}
+          onMotDePasse={changerMotDePasse}
+          onDeconnecter={deconnecter}
+          onFermer={() => setReglagesOuverts(false)}
+        />
+      )}
+
+      {sauvegardeOuverte && (
+        <Sauvegarde
+          texte={texteComplet()}
+          onFermer={() => setSauvegardeOuverte(false)}
+          onValider={importer}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ---------- Assistant : lecture d'annonces ---------- */
+const chargerScript = (src) =>
+  new Promise((ok, non) => {
+    if (document.querySelector('script[data-src="' + src + '"]')) return ok();
+    const b = document.createElement("script");
+    b.src = src;
+    b.setAttribute("data-src", src);
+    b.onload = () => ok();
+    b.onerror = () => non(new Error("script indisponible"));
+    document.head.appendChild(b);
+  });
+
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+
+const texteDuPdf = async (fichier) => {
+  await chargerScript(PDFJS + "pdf.min.js");
+  const lib = window.pdfjsLib;
+  if (!lib) throw new Error("lecteur PDF indisponible");
+  lib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js";
+  const doc = await lib.getDocument({ data: await fichier.arrayBuffer() }).promise;
+  let out = "";
+  for (let n = 1; n <= Math.min(doc.numPages, 6); n += 1) {
+    const c = await (await doc.getPage(n)).getTextContent();
+    out += c.items.map((x) => x.str).join(" ") + "\n";
+  }
+  return out;
+};
+
+const texteDuFichier = async (f) => {
+  const nom = (f.name || "").toLowerCase();
+  if (nom.endsWith(".pdf") || f.type === "application/pdf") return texteDuPdf(f);
+  const brut = await f.text();
+  // Une page enregistrée : on retire les balises pour ne garder que le texte.
+  return /<[a-z!/]/i.test(brut.slice(0, 500))
+    ? brut.replace(/<(script|style)[\s\S]*?<\/\1>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ")
+    : brut;
+};
+
+// Extraction sans intelligence artificielle : repères de format et mots-clés.
+const analyserAnnonce = (texte) => {
+  const t = String(texte || "");
+  const lignes = t.split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const cherche = (mots) => {
+    const re = new RegExp("(?:" + mots + ")\\s*[:\\-–]\\s*(.+)", "i");
+    for (const l of lignes) {
+      const m = l.match(re);
+      if (m && m[1].trim().length > 1) return m[1].trim().slice(0, 90);
+    }
+    return "";
+  };
+  const formation =
+    /(formation|dipl[oô]me|cursus|bachelor|master|certification|RNCP|CPF|[ée]cole|organisme de formation)/i.test(t) &&
+    !/(CDI|CDD|int[ée]rim|recrut|poste [àa] pourvoir)/i.test(t);
+
+  const fiche = {
+    type: formation ? "formation" : "entreprise",
+    nom: cherche("entreprise|soci[ée]t[ée]|organisme|employeur|centre de formation"),
+    intitule: cherche("poste|intitul[ée]|titre|fonction|formation"),
+    email: (t.match(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i) || [""])[0],
+    tel: (t.match(/(?:\+33|0)\s*[1-9](?:[\s.-]*\d{2}){4}/) || [""])[0],
+    lien: (t.match(/https?:\/\/[^\s"'<>)]+/i) || [""])[0],
+    contactNom: cherche("contact|recruteur|r[ée]f[ée]rent"),
+    source: SOURCES.find((x) => new RegExp(x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i").test(t)) || "",
+    commentaire: "",
+  };
+  // Sans libellé explicite, les premières lignes servent de titre puis de nom.
+  if (!fiche.intitule && lignes[0]) fiche.intitule = lignes[0].slice(0, 90);
+  if (!fiche.nom && lignes[1]) fiche.nom = lignes[1].slice(0, 80);
+  if (!fiche.nom) fiche.nom = fiche.intitule || "Annonce importée";
+  return fiche;
+};
+
+
+// Une annonce est longue et porte des marqueurs de recrutement ; une question, non.
+const estUneAnnonce = (t) => {
+  const x = String(t || "");
+  if (x.length > 400) return true;
+  const marqueurs =
+    /(CDI|CDD|int[ée]rim|alternance|stage|poste [àa] pourvoir|recrut|profil recherch|missions|comp[ée]tences requises|salaire|r[ée]mun[ée]ration|RNCP|CPF|dipl[ôo]me|formation certifiante)/i;
+  return x.length > 150 && marqueurs.test(x);
+};
+
+// Assistant hors ligne : il ne converse pas, mais il lit le carnet et répond juste.
+const repondreLocalement = (question, items) => {
+  const q = cle(question);
+  const ouvertes = items.filter((i) => !CLOS.includes(i.statutId));
+  const avecRappel = ouvertes
+    .filter((i) => i.dateRappel)
+    .map((i) => ({ ...i, j: joursRestants(i.dateRappel) }))
+    .sort((a, b) => a.j - b.j);
+  const enRetard = avecRappel.filter((i) => i.j <= 0);
+  const semaine = avecRappel.filter((i) => i.j > 0 && i.j <= 7);
+  const liste = (t) => t.map((i) => `· ${i.nom}${i.dateRappel ? " — " + dateCourte(i.dateRappel) : ""}`).join("\n");
+
+  if (!items.length) return "Ton carnet est vide. Ajoute une piste, ou colle-moi une annonce et j'en tire une fiche.";
+
+  if (/(bonjour|salut|coucou|bonsoir|hello|ca va|comment vas)/.test(q))
+    return `Bonjour. ${items.length} piste${items.length > 1 ? "s" : ""} au carnet, ${enRetard.length} relance${enRetard.length > 1 ? "s" : ""} en retard. Demande-moi tes relances, un bilan, ou colle une annonce.`;
+
+  if (/(relance|relancer|rappel|echeance|cette semaine|aujourd hui|retard)/.test(q)) {
+    if (!avecRappel.length) return "Aucune piste ouverte n'a de date de rappel. Ouvre une fiche « À contacter » pour en poser une.";
+    const bouts = [];
+    if (enRetard.length) bouts.push(`En retard (${enRetard.length}) :\n${liste(enRetard)}`);
+    if (semaine.length) bouts.push(`Dans les 7 jours (${semaine.length}) :\n${liste(semaine)}`);
+    if (!bouts.length) bouts.push(`Rien avant le ${dateCourte(avecRappel[0].dateRappel)} : ${avecRappel[0].nom}.`);
+    return bouts.join("\n\n");
+  }
+
+  if (/(combien|bilan|resume|point|statistique|etat|ou en est)/.test(q)) {
+    const parStatut = STATUTS.map((st) => ({ st, n: items.filter((i) => i.statutId === st.id).length })).filter((x) => x.n);
+    return [
+      `${items.length} piste${items.length > 1 ? "s" : ""} : ${items.filter((i) => i.type === "entreprise").length} entreprise(s), ${items.filter((i) => i.type === "formation").length} formation(s).`,
+      parStatut.map((x) => `· ${x.st.label} : ${x.n}`).join("\n"),
+      enRetard.length ? `${enRetard.length} relance(s) en retard.` : "Aucune relance en retard.",
+    ].join("\n\n");
+  }
+
+  if (/(sans mail|sans e mail|sans email|pas de mail|coordonnee)/.test(q)) {
+    const muettes = items.filter((i) => !i.email);
+    return muettes.length
+      ? `${muettes.length} piste(s) sans e-mail, donc hors envoi de CV :\n${liste(muettes)}`
+      : "Toutes tes pistes ont un e-mail.";
+  }
+
+  if (/(entretien)/.test(q)) {
+    const e = items.filter((i) => i.statutId === "entretien");
+    return e.length
+      ? `Entretiens notés :\n${e.map((i) => `· ${i.nom} — ${dateCourte(i.dateContact) || "date à poser"}${i.heure ? " à " + i.heure : ""}`).join("\n")}`
+      : "Aucun entretien au carnet pour l'instant.";
+  }
+
+  if (/(quoi faire|que faire|prochaine|priorite|conseil|par ou)/.test(q)) {
+    if (enRetard.length) return `Commence par tes ${enRetard.length} relance(s) en retard :\n${liste(enRetard)}`;
+    const aContacter = items.filter((i) => i.statutId === "a_contacter" && !i.dateRappel);
+    if (aContacter.length) return `Ces pistes « À contacter » n'ont pas de date de rappel — elles vont s'oublier :\n${liste(aContacter)}`;
+    if (semaine.length) return `Rien d'urgent. Cette semaine :\n${liste(semaine)}`;
+    return "Rien d'urgent au carnet. C'est le moment d'ajouter de nouvelles pistes.";
+  }
+
+  return [
+    "Sans clé API, je ne tiens pas une vraie conversation, mais je lis ton carnet. Essaie :",
+    "· mes relances",
+    "· un bilan",
+    "· que faire maintenant",
+    "· pistes sans e-mail",
+    "· mes entretiens",
+    "Et colle une annonce quand tu veux : j'en tire une fiche.",
+  ].join("\n");
+};
+
+// Résumé transmis au modèle pour qu'il réponde en connaissance de cause.
+const resumeDuCarnet = (items) =>
+  !items.length
+    ? "Le carnet est vide."
+    : items
+        .slice(0, 40)
+        .map(
+          (i) =>
+            `- ${i.nom}${i.intitule ? " (" + i.intitule + ")" : ""} · ${statut(i.statutId).label}` +
+            `${i.dateContact ? " · " + champsDates(i.statutId).action.toLowerCase() + " " + i.dateContact : ""}` +
+            `${i.dateRappel ? " · rappel " + i.dateRappel : ""}`
+        )
+        .join("\n");
+
+// Un import doit toujours aboutir à une proposition, même si la lecture échoue.
+const ficheDeSecours = (nomFichier) => ({
+  type: "entreprise",
+  nom: String(nomFichier || "Annonce importée").replace(/\.[a-z0-9]+$/i, "").slice(0, 80),
+  intitule: "",
+  source: "",
+  contactNom: "",
+  tel: "",
+  email: "",
+  lien: "",
+  commentaire: "Importé depuis " + (nomFichier || "un fichier") + " — à compléter.",
+});
+
+const SYSTEME_ASSISTANT =
+  "Tu assistes une personne qui tient un carnet de recherche d'emploi et de formation. " +
+  "Réponds en français, brièvement, sans formules creuses. " +
+  "Si le message contient une annonce, résume-la en deux phrases puis termine par un bloc " +
+  "<fiche>{...}</fiche> contenant un JSON avec les clés type (\"entreprise\" ou \"formation\"), " +
+  "nom, intitule, source, contactNom, tel, email, lien, commentaire. Omets une clé absente. " +
+  "N'invente jamais une coordonnée : laisse la clé vide si l'information manque. " +
+  "Quand l'outil de recherche web est disponible, sers-t'en pour retrouver le site officiel, " +
+  "l'adresse ou l'e-mail de contact public de l'entreprise ou de l'organisme.";
+
+const appelerClaude = async (cleApi, messages, contexte, recherche) => {
+  const r = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-api-key": cleApi,
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true",
+    },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 1500,
+      ...(recherche
+        ? { tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }] }
+        : {}),
+      system: SYSTEME_ASSISTANT + (contexte ? "\n\nÉtat actuel du carnet :\n" + contexte : ""),
+      messages,
+    }),
+  });
+  const data = await r.json();
+  if (!r.ok) throw new Error((data.error && data.error.message) || "erreur " + r.status);
+  return (data.content || []).map((b) => b.text || "").join("\n");
+};
+
+const ficheDeLaReponse = (texte) => {
+  const m = String(texte).match(/<fiche>([\s\S]*?)<\/fiche>/);
+  if (!m) return null;
+  try {
+    const o = JSON.parse(m[1]);
+    return o && typeof o === "object" ? o : null;
+  } catch {
+    return null;
+  }
+};
+
+/* ---------- Assistant ---------- */
+function Assistant({ cleApi, recherche, items, onProposer, onFermer }) {
+  const [fil, setFil] = useState([
+    {
+      role: "assistant",
+      texte: cleApi
+        ? "Colle une annonce, importe son fichier, photographie-la, ou pose-moi une question sur ta recherche."
+        : "Pose-moi une question sur ton carnet — mes relances, un bilan, que faire maintenant — ou colle une annonce pour en tirer une fiche.",
+    },
+  ]);
+  const [saisie, setSaisie] = useState("");
+  const [occupe, setOccupe] = useState(false);
+  const [proposition, setProposition] = useState(null);
+  const bas = useRef(null);
+
+  useEffect(() => {
+    if (bas.current && bas.current.scrollIntoView) bas.current.scrollIntoView({ block: "end" });
+  }, [fil, proposition]);
+
+  const traiter = async (texte, etiquette) => {
+    if (!texte.trim()) return;
+    const suite = [...fil, { role: "user", texte: etiquette || texte }];
+    setFil(suite);
+    setSaisie("");
+    setOccupe(true);
+    try {
+      if (cleApi) {
+        const historique = suite
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .slice(-8)
+          .map((m) => ({
+            role: m.role,
+            content: m.role === "user" && etiquette && m.texte === etiquette ? texte : m.texte,
+          }));
+        const reponse = await appelerClaude(cleApi, historique, resumeDuCarnet(items), !!etiquette && recherche);
+        const f = ficheDeLaReponse(reponse);
+        setFil([
+          ...suite,
+          { role: "assistant", texte: reponse.replace(/<fiche>[\s\S]*?<\/fiche>/, "").trim() || "Voici ce que j'en tire." },
+        ]);
+        if (f) setProposition(f);
+      } else if (etiquette || estUneAnnonce(texte)) {
+        // Un fichier importé, ou un texte qui a tout d'une annonce.
+        const f = analyserAnnonce(texte);
+        setFil([...suite, { role: "assistant", texte: "Voici la fiche que j'en tire. Vérifie-la avant de l'enregistrer." }]);
+        setProposition(f);
+      } else {
+        setFil([...suite, { role: "assistant", texte: repondreLocalement(texte, items) }]);
+      }
+    } catch (e) {
+      setFil([...suite, { role: "assistant", texte: "Échec : " + ((e && e.message) || e) }]);
+    }
+    setOccupe(false);
+  };
+
+  const envoyerImage = async (f) => {
+    if (!f) return;
+    if (!cleApi) {
+      setFil((p) => [
+        ...p,
+        { role: "user", texte: "Photo : " + (f.name || "annonce") },
+        {
+          role: "assistant",
+          texte:
+            "Lire le contenu d'une photo demande une clé API (Réglages → Assistant). " +
+            "En attendant, voici une fiche à compléter à la main.",
+        },
+      ]);
+      setProposition(ficheDeSecours(f.name));
+      return;
+    }
+    setOccupe(true);
+    try {
+      const url = await imageReduite(f, 1600);
+      const suite = [...fil, { role: "user", texte: "Photo : " + (f.name || "annonce"), image: url }];
+      setFil(suite);
+      const reponse = await appelerClaude(
+        cleApi,
+        [
+          {
+            role: "user",
+            content: [
+              { type: "image", source: { type: "base64", media_type: "image/jpeg", data: url.split(",")[1] } },
+              { type: "text", text: "Voici la photo d'une annonce. Lis-la et propose la fiche correspondante." },
+            ],
+          },
+        ],
+        resumeDuCarnet(items),
+        recherche
+      );
+      const fh = ficheDeLaReponse(reponse);
+      setFil([
+        ...suite,
+        { role: "assistant", texte: reponse.replace(/<fiche>[\s\S]*?<\/fiche>/, "").trim() || "Voici ce que je lis." },
+      ]);
+      if (fh) setProposition(fh);
+    } catch (e) {
+      setFil((p) => [...p, { role: "assistant", texte: "Lecture de la photo impossible : " + ((e && e.message) || e) }]);
+    }
+    setOccupe(false);
+  };
+
+  // Demande au modèle de chercher en ligne ce qui manque, sans rien inventer.
+  const completer = async () => {
+    if (!cleApi || !proposition) return;
+    setOccupe(true);
+    try {
+      const reponse = await appelerClaude(
+        cleApi,
+        [
+          {
+            role: "user",
+            content:
+              "Complète cette fiche en cherchant en ligne. Renseigne le nom exact, le site officiel, " +
+              "un e-mail ou un téléphone de contact public, et la ville si tu la trouves. " +
+              "Laisse vide tout ce que tu ne trouves pas : n'invente rien. " +
+              "Réponds uniquement par un bloc <fiche>{...}</fiche>.\n\nFiche actuelle :\n" +
+              JSON.stringify(proposition),
+          },
+        ],
+        "",
+        true
+      );
+      const f = ficheDeLaReponse(reponse);
+      if (f) {
+        const fusion = { ...proposition };
+        Object.keys(f).forEach((k) => {
+          if (f[k] && !fusion[k]) fusion[k] = f[k];
+        });
+        setProposition(fusion);
+        setFil((p) => [...p, { role: "assistant", texte: "Fiche complétée par recherche web. Vérifie avant d'enregistrer." }]);
+      } else {
+        setFil((p) => [...p, { role: "assistant", texte: "La recherche n'a rien apporté de fiable." }]);
+      }
+    } catch (e) {
+      setFil((p) => [...p, { role: "assistant", texte: "Recherche impossible : " + ((e && e.message) || e) }]);
+    }
+    setOccupe(false);
+  };
+
+  const importer = async (f) => {
+    if (!f) return;
+    if ((f.type || "").startsWith("image/")) return envoyerImage(f);
+    setOccupe(true);
+    try {
+      const texte = await texteDuFichier(f);
+      setOccupe(false);
+      await traiter(texte, "Annonce importée : " + f.name);
+    } catch (e) {
+      setOccupe(false);
+      setFil((p) => [
+        ...p,
+        {
+          role: "assistant",
+          texte:
+            "Je n'ai pas pu lire ce fichier (" + ((e && e.message) || e) + "). " +
+            "Voici une fiche vierge à son nom : complète-la, ou colle le texte de l'annonce.",
+        },
+      ]);
+      setProposition(ficheDeSecours(f.name));
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col" style={{ background: C.paper, color: C.texte }}>
+      <div
+        className="flex shrink-0 items-center justify-between px-5 py-3"
+        style={{ background: C.ink, color: C.surInk }}
+      >
+        <button onClick={onFermer} className="text-sm">Fermer</button>
+        <span className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+          Assistant
+        </span>
+        <span className="w-12" />
+      </div>
+
+      <div className="flex-1 overflow-y-auto px-5 py-4">
+        <div className="mx-auto w-full max-w-3xl space-y-3">
+          {fil.map((m, k) => (
+            <div
+              key={k}
+              className="max-w-[85%] whitespace-pre-line rounded-lg px-3 py-2 text-sm"
+              style={
+                m.role === "user"
+                  ? { background: C.ink, color: C.surInk, marginLeft: "auto" }
+                  : { background: C.card, border: `1px solid ${C.line}` }
+              }
+            >
+              {m.image && (
+                <img
+                  src={m.image}
+                  alt=""
+                  className="mb-2 max-h-40 w-full rounded object-cover"
+                />
+              )}
+              {m.texte}
+            </div>
+          ))}
+
+          {proposition && (
+            <div className="rounded-lg p-3" style={{ background: C.card, border: `1px solid ${C.teal}` }}>
+              <p className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+                Fiche proposée
+              </p>
+              <p className="mt-2 text-sm font-medium">{proposition.nom || "Sans nom"}</p>
+              <p className="text-xs" style={{ color: C.muted }}>
+                {[
+                  proposition.type === "formation" ? "Formation" : "Entreprise",
+                  proposition.intitule,
+                  proposition.source,
+                  proposition.email,
+                  proposition.tel,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+              {cleApi && (
+                <button
+                  onClick={completer}
+                  disabled={occupe}
+                  className="mt-3 w-full rounded-lg py-2 text-sm"
+                  style={{ background: C.card, border: `1px solid ${C.teal}`, color: C.teal }}
+                >
+                  Compléter par le web
+                </button>
+              )}
+              <div className="mt-2 flex gap-2">
+                <button
+                  onClick={() => onProposer(proposition)}
+                  className="flex-1 rounded-lg py-2 text-sm"
+                  style={{ background: C.ink, color: C.surInk }}
+                >
+                  Ouvrir la fiche
+                </button>
+                <button
+                  onClick={() => setProposition(null)}
+                  className="rounded-lg px-3 py-2 text-sm"
+                  style={{ border: `1px solid ${C.line}`, color: C.muted }}
+                >
+                  Ignorer
+                </button>
+              </div>
+            </div>
+          )}
+
+          {occupe && (
+            <p className="text-xs" style={{ fontFamily: F.mono, color: C.muted }}>
+              lecture en cours…
+            </p>
+          )}
+          <div ref={bas} />
+        </div>
+      </div>
+
+      <div className="shrink-0 px-5 pb-6 pt-2" style={{ borderTop: `1px solid ${C.line}` }}>
+        <div className="mx-auto w-full max-w-3xl">
+          <textarea
+            rows={3}
+            value={saisie}
+            onChange={(e) => setSaisie(e.target.value)}
+            placeholder="Pose une question, ou colle une annonce…"
+            className="w-full rounded-lg p-3 text-sm"
+            style={{ background: C.card, border: `1px solid ${C.line}`, color: C.texte }}
+          />
+          <div className="mt-2 flex gap-2">
+            <label
+              className="cursor-pointer rounded-lg px-3 py-2 text-sm"
+              style={{ background: C.card, border: `1px solid ${C.line}` }}
+            >
+              Importer
+              <input
+                type="file"
+                accept=".txt,.md,.html,.htm,.json,.pdf,image/*"
+                className="hidden"
+                onChange={(e) => importer(e.target.files && e.target.files[0])}
+              />
+            </label>
+            <button
+              onClick={() => traiter(saisie)}
+              disabled={occupe || !saisie.trim()}
+              className="flex-1 rounded-lg py-2 text-sm"
+              style={{ background: saisie.trim() ? C.ink : C.line, color: C.surInk }}
+            >
+              Envoyer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Connexion ---------- */
+function Connexion({ onConnecter, onInscrire, onOublie, avertissement }) {
+  const [mode, setMode] = useState("connexion");
+  const [message, setMessage] = useState("");
+  const [nom, setNom] = useState("");
+  const [email, setEmail] = useState("");
+  const [mdp, setMdp] = useState("");
+  const [mdp2, setMdp2] = useState("");
+  const [erreur, setErreur] = useState("");
+  const [occupe, setOccupe] = useState(false);
+
+  const envoyer = async () => {
+    setErreur("");
+    if (!RE_EMAIL.test(email.trim())) return setErreur("Adresse e-mail invalide.");
+    if (mdp.length < 6) return setErreur("Le mot de passe doit faire au moins 6 caractères.");
+    if (mode === "inscription") {
+      if (!nom.trim()) return setErreur("Indique ton nom.");
+      if (mdp !== mdp2) return setErreur("Les deux mots de passe diffèrent.");
+    }
+    setOccupe(true);
+    setMessage("");
+    const m =
+      mode === "connexion"
+        ? await onConnecter(email, mdp)
+        : await onInscrire({ nom: nom.trim(), email, mdp });
+    setOccupe(false);
+    // L'inscription réussie sans session renvoie une consigne, pas une erreur.
+    if (m && /confirmation/i.test(m)) {
+      setMessage(m);
+      setMode("connexion");
+    } else if (m) {
+      setErreur(m);
+    }
+  };
+
+  return (
+    <div
+      className="flex min-h-screen w-full items-center justify-center px-5 py-10"
+      style={{ ...styleFond(REGLAGES_DEFAUT), fontFamily: F.body, color: C.texte }}
+    >
+      <div className="w-full max-w-sm">
+        <h1 className="text-3xl leading-none" style={{ fontFamily: F.display }}>
+          Carnet de recherche
+        </h1>
+        <p className="mt-2 text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          {mode === "connexion" ? "Connexion" : "Créer un profil"}
+        </p>
+
+        <div className="mt-6 space-y-3">
+          {mode === "inscription" && (
+            <Champ label="Nom">
+              <input
+                value={nom}
+                onChange={(e) => setNom(e.target.value)}
+                className="w-full bg-transparent text-base outline-none"
+                style={{ color: C.texte }}
+              />
+            </Champ>
+          )}
+          <Champ label="E-mail">
+            <input
+              type="email"
+              inputMode="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="toi@exemple.fr"
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          <Champ label="Mot de passe">
+            <input
+              type="password"
+              value={mdp}
+              onChange={(e) => setMdp(e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          {mode === "inscription" && (
+            <Champ label="Confirmer le mot de passe">
+              <input
+                type="password"
+                value={mdp2}
+                onChange={(e) => setMdp2(e.target.value)}
+                className="w-full bg-transparent text-base outline-none"
+                style={{ color: C.texte }}
+              />
+            </Champ>
+          )}
+        </div>
+
+        {(erreur || avertissement) && (
+          <p role="alert" className="mt-3 flex items-start gap-1.5 text-xs" style={{ color: C.brique }}>
+            <AlertCircle size={13} className="mt-0.5 shrink-0" />
+            {erreur || avertissement}
+          </p>
+        )}
+        {message && (
+          <p className="mt-3 flex items-start gap-1.5 text-xs" style={{ color: C.teal }}>
+            <Check size={13} className="mt-0.5 shrink-0" />
+            {message}
+          </p>
+        )}
+
+        <button
+          onClick={envoyer}
+          disabled={occupe}
+          className="mt-5 w-full rounded-lg py-3 text-sm"
+          style={{ background: C.ink, color: C.surInk }}
+        >
+          {occupe ? "…" : mode === "connexion" ? "Connexion" : "Créer mon profil"}
+        </button>
+
+        <button
+          onClick={() => {
+            setMode(mode === "connexion" ? "inscription" : "connexion");
+            setErreur("");
+            setMessage("");
+          }}
+          className="mt-3 w-full text-xs underline"
+          style={{ color: C.muted }}
+        >
+          {mode === "connexion" ? "Pas encore de profil ? S'enregistrer" : "J'ai déjà un profil : me connecter"}
+        </button>
+
+        {mode === "connexion" && (
+          <button
+            onClick={async () => {
+              setErreur("");
+              setMessage("");
+              if (!RE_EMAIL.test(email.trim()))
+                return setErreur("Indique d'abord ton adresse e-mail ci-dessus.");
+              setOccupe(true);
+              const m = await onOublie(email);
+              setOccupe(false);
+              if (m) setErreur(m);
+              else
+                setMessage(
+                  "Si un compte existe pour cette adresse, un lien de réinitialisation vient d'y être envoyé."
+                );
+            }}
+            disabled={occupe}
+            className="mt-2 w-full text-xs underline"
+            style={{ color: C.muted }}
+          >
+            Mot de passe oublié ?
+          </button>
+        )}
+
+        <p className="mt-8 text-xs" style={{ color: C.muted }}>
+          Tes fiches sont conservées sur un serveur en France et ne sont lisibles que par
+          ton compte. Elles te suivent d'un appareil à l'autre.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Tableau de bord ---------- */
+
+function Tuile({ valeur, legende, couleur }) {
+  return (
+    <div className="rounded-lg p-3" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+      <p className="text-2xl leading-none" style={{ fontFamily: F.display, color: couleur || C.texte }}>
+        {valeur}
+      </p>
+      <p className="mt-1.5 text-xs" style={{ color: C.muted }}>{legende}</p>
+    </div>
+  );
+}
+
+function Barre({ label, valeur, total, couleur, suffixe }) {
+  const part = total > 0 ? Math.round((valeur / total) * 100) : 0;
+  return (
+    <div className="py-1.5">
+      <div className="flex items-baseline justify-between gap-3 text-sm">
+        <span className="min-w-0 flex-1 truncate">{label}</span>
+        <span style={{ fontFamily: F.mono, color: C.muted }}>
+          {valeur}{suffixe || ""}
+        </span>
+      </div>
+      <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full" style={{ background: C.line }}>
+        <div
+          className="h-full rounded-full"
+          style={{ width: `${part}%`, background: couleur || C.teal, minWidth: valeur > 0 ? 4 : 0 }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TableauDeBord({ bilan, enCours, erreur, onOuvrir }) {
+  if (erreur) {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-6">
+        <p className="flex items-start gap-1.5 text-sm" style={{ color: C.brique }}>
+          <AlertCircle size={14} className="mt-0.5 shrink-0" />
+          {erreur}
+        </p>
+      </main>
+    );
+  }
+
+  if (!bilan && enCours) {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-10">
+        <p className="text-center text-sm" style={{ color: C.muted }}>Calcul du bilan…</p>
+      </main>
+    );
+  }
+
+  if (!bilan) return <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-10" />;
+
+  const s = bilan.synthese || {};
+  const total = Number(s.total || 0);
+
+  if (total === 0) {
+    return (
+      <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-14 text-center">
+        <p className="text-lg" style={{ fontFamily: F.display }}>Rien à mesurer pour l'instant.</p>
+        <p className="mx-auto mt-2 max-w-xs text-sm" style={{ color: C.muted }}>
+          Le bilan se remplira à mesure que tu ajoutes des pistes et fais évoluer leur statut.
+        </p>
+      </main>
+    );
+  }
+
+  const envoyees = Number(s.envoyees || 0);
+  const entretiens = Number(s.entretiens || 0);
+  // Rapporté aux candidatures réellement envoyées : une piste jamais envoyée
+  // ne pouvait pas donner d'entretien, la compter fausserait le taux.
+  const tauxEntretien = envoyees > 0 ? Math.round((entretiens / envoyees) * 100) : null;
+  const maxSource = Math.max(1, ...bilan.sources.map((x) => Number(x.candidatures)));
+
+  return (
+    <main className="mx-auto w-full max-w-3xl px-5 pb-36 pt-5 lg:max-w-5xl">
+      {/* Chiffres de tête */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Tuile valeur={total} legende="pistes au carnet" />
+        <Tuile valeur={s.en_cours || 0} legende="en cours" couleur={C.teal} />
+        <Tuile
+          valeur={entretiens}
+          legende={tauxEntretien === null ? "entretiens obtenus" : `entretiens · ${tauxEntretien}% des envois`}
+          couleur={entretiens > 0 ? C.vert : undefined}
+        />
+        <Tuile
+          valeur={s.delai_moyen == null ? "—" : `${s.delai_moyen} j`}
+          legende="délai de réponse moyen"
+        />
+      </div>
+
+      {Number(s.en_retard || 0) > 0 && (
+        <p className="mt-3 rounded-lg p-3 text-xs" style={{ background: "#F6EEDB", color: "#7A5A17" }}>
+          {s.en_retard === 1
+            ? "Une relance a dépassé sa date."
+            : `${s.en_retard} relances ont dépassé leur date.`}
+        </p>
+      )}
+
+      {/* Répartition par statut */}
+      <section className="mt-7">
+        <h2 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Où en sont les pistes
+        </h2>
+        <div className="mt-3 rounded-lg p-3" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+          {STATUTS.filter((st) => bilan.statuts[st.id]).map((st) => (
+            <Barre
+              key={st.id}
+              label={st.label}
+              valeur={bilan.statuts[st.id]}
+              total={total}
+              couleur={couleurStatut(st.id)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Rendement par source */}
+      <section className="mt-7">
+        <h2 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Ce que rapporte chaque source
+        </h2>
+        <div className="mt-3 rounded-lg p-3" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+          {bilan.sources.length === 0 ? (
+            <p className="py-2 text-sm" style={{ color: C.muted }}>Aucune source renseignée.</p>
+          ) : (
+            <>
+              {bilan.sources.map((x) => (
+                <div key={x.source} className="py-1.5">
+                  <div className="flex items-baseline justify-between gap-3 text-sm">
+                    <span className="min-w-0 flex-1 truncate">{x.source}</span>
+                    <span style={{ fontFamily: F.mono, color: C.muted }}>
+                      {x.candidatures} envoi{Number(x.candidatures) > 1 ? "s" : ""}
+                      {Number(x.entretiens) > 0 && (
+                        <span style={{ color: C.vert }}> · {x.entretiens} entretien{Number(x.entretiens) > 1 ? "s" : ""}</span>
+                      )}
+                    </span>
+                  </div>
+                  <div className="mt-1 flex h-1.5 w-full overflow-hidden rounded-full" style={{ background: C.line }}>
+                    <div
+                      className="h-full"
+                      style={{
+                        width: `${(Number(x.candidatures) / maxSource) * 100}%`,
+                        background: C.inkSoft,
+                      }}
+                    />
+                  </div>
+                </div>
+              ))}
+              <p className="mt-3 text-xs" style={{ color: C.muted }}>
+                Les entretiens restent comptés même si la piste s'est conclue par un refus.
+              </p>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* Pistes dormantes */}
+      <section className="mt-7">
+        <h2 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Sans mouvement depuis 3 semaines
+        </h2>
+        <div className="mt-3 rounded-lg p-3" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+          {bilan.dormantes.length === 0 ? (
+            <p className="py-2 text-sm" style={{ color: C.muted }}>
+              Aucune piste laissée de côté. Rien à rattraper.
+            </p>
+          ) : (
+            bilan.dormantes.map((d) => (
+              <button
+                key={d.id}
+                onClick={() => onOuvrir(d.id)}
+                className="flex w-full items-baseline justify-between gap-3 py-2 text-left text-sm"
+              >
+                <span className="min-w-0 flex-1 truncate">{d.organisme}</span>
+                <span className="shrink-0" style={{ fontFamily: F.mono, color: C.ocre }}>
+                  {d.jours_sans_mouvement} j
+                </span>
+              </button>
+            ))
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}
+
+/* ---------- Choix d'un nouveau mot de passe ---------- */
+function NouveauMotDePasse({ onValider }) {
+  const [mdp, setMdp] = useState("");
+  const [mdp2, setMdp2] = useState("");
+  const [erreur, setErreur] = useState("");
+  const [occupe, setOccupe] = useState(false);
+
+  const envoyer = async () => {
+    setErreur("");
+    if (mdp.length < 6) return setErreur("Le mot de passe doit faire au moins 6 caractères.");
+    if (mdp !== mdp2) return setErreur("Les deux mots de passe diffèrent.");
+    setOccupe(true);
+    const m = await onValider(mdp);
+    setOccupe(false);
+    if (m) setErreur(m);
+  };
+
+  return (
+    <div
+      className="flex min-h-screen w-full items-center justify-center px-5 py-10"
+      style={{ ...styleFond(REGLAGES_DEFAUT), fontFamily: F.body, color: C.texte }}
+    >
+      <div className="w-full max-w-sm">
+        <h1 className="text-3xl leading-none" style={{ fontFamily: F.display }}>
+          Nouveau mot de passe
+        </h1>
+        <p className="mt-2 text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Choisis-en un
+        </p>
+
+        <div className="mt-6 space-y-3">
+          <Champ label="Nouveau mot de passe">
+            <input
+              type="password"
+              value={mdp}
+              onChange={(e) => setMdp(e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          <Champ label="Confirmer">
+            <input
+              type="password"
+              value={mdp2}
+              onChange={(e) => setMdp2(e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+        </div>
+
+        {erreur && (
+          <p role="alert" className="mt-3 flex items-start gap-1.5 text-xs" style={{ color: C.brique }}>
+            <AlertCircle size={13} className="mt-0.5 shrink-0" />
+            {erreur}
+          </p>
+        )}
+
+        <button
+          onClick={envoyer}
+          disabled={occupe}
+          className="mt-5 w-full rounded-lg py-3 text-sm"
+          style={{ background: C.ink, color: C.surInk }}
+        >
+          {occupe ? "…" : "Enregistrer et ouvrir le carnet"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Envoi de CV ---------- */
+function EnvoiCV({ items, onAppliquer, onFermer }) {
+  const [fichier, setFichier] = useState(null);
+  const [choix, setChoix] = useState([]);
+  const [message, setMessage] = useState("");
+  const [apercu, setApercu] = useState("");
+
+  // Adresse temporaire pour ouvrir le CV sans le recopier.
+  useEffect(() => {
+    if (!fichier) {
+      setApercu("");
+      return;
+    }
+    const u = URL.createObjectURL(fichier);
+    setApercu(u);
+    return () => URL.revokeObjectURL(u);
+  }, [fichier]);
+
+  const partagerCV = async () => {
+    setMessage("");
+    try {
+      if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+        await navigator.share({ files: [fichier], title: fichier.name });
+        return;
+      }
+      setMessage("Le partage direct n'est pas disponible ici : ouvre le CV, puis sers-toi du bouton Partager du navigateur.");
+    } catch (e) {
+      if (!e || e.name !== "AbortError") setMessage("Partage impossible sur cet appareil.");
+    }
+  };
+
+  const joignables = items.filter((i) => i.email && RE_EMAIL.test(i.email.trim()));
+  const muettes = items.filter((i) => !(i.email && RE_EMAIL.test(i.email.trim())));
+
+  const basculer = (id) =>
+    setChoix((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
+
+  const preparer = async () => {
+    if (!choix.length) return;
+    const adresses = items
+      .filter((i) => choix.includes(i.id))
+      .map((i) => i.email.trim())
+      .join(", ");
+    try {
+      await navigator.clipboard.writeText(adresses);
+      setMessage("Adresses copiées. Ouvre Mail, colle-les, joins ton CV.");
+    } catch {
+      setMessage(adresses);
+    }
+    onAppliquer(choix);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto" style={{ background: C.paper, color: C.texte }}>
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between px-5 py-3"
+        style={{ background: C.ink, color: C.surInk }}
+      >
+        <button onClick={onFermer} className="text-sm">Fermer</button>
+        <span className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+          Envoyer un CV
+        </span>
+        <span className="w-12" />
+      </div>
+
+      <div className="mx-auto w-full max-w-3xl space-y-6 px-5 py-6">
+        <p className="text-sm" style={{ color: C.muted }}>
+          L'app ne peut pas envoyer de mail elle-même. Elle prépare tout : tu choisis ton CV, tu
+          peux le relire et le partager vers Mail, puis tu sélectionnes les pistes joignables — elle
+          copie leurs adresses et passe ces fiches en « Candidature envoyée » à la date du jour.
+        </p>
+
+        <Bloc titre="1 · Ton CV">
+          <label
+            className="block cursor-pointer rounded-lg px-3 py-3 text-center text-sm"
+            style={{ background: C.card, border: `1px solid ${fichier ? C.teal : C.line}` }}
+          >
+            {fichier ? `${fichier.name} · ${Math.round(fichier.size / 1024)} ko` : "Choisir un fichier"}
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx,application/pdf"
+              className="hidden"
+              onChange={(e) => setFichier((e.target.files && e.target.files[0]) || null)}
+            />
+          </label>
+          {fichier && (
+            <div className="flex gap-2">
+              <a
+                href={apercu}
+                target="_blank"
+                rel="noreferrer"
+                className="flex-1 rounded-lg py-2 text-center text-sm"
+                style={{ background: C.card, border: `1px solid ${C.line}`, color: C.texte }}
+              >
+                Voir le CV
+              </a>
+              <button
+                onClick={partagerCV}
+                className="flex-1 rounded-lg py-2 text-sm"
+                style={{ background: C.card, border: `1px solid ${C.line}` }}
+              >
+                Partager le CV
+              </button>
+            </div>
+          )}
+          {fichier && (
+            <p className="text-xs" style={{ color: C.muted }}>
+              Le fichier reste sur ton téléphone : l'app retient seulement son nom, le temps de
+              cette session.
+            </p>
+          )}
+        </Bloc>
+
+        <Bloc titre="2 · Pistes à contacter">
+          {!fichier ? (
+            <p className="text-sm" style={{ color: C.muted }}>
+              Choisis d'abord ton CV.
+            </p>
+          ) : joignables.length === 0 ? (
+            <p className="text-sm" style={{ color: C.muted }}>
+              Aucune piste ne comporte d'e-mail valide pour l'instant.
+            </p>
+          ) : (
+            <ul className="space-y-2">
+              {joignables.map((i) => (
+                <li key={i.id}>
+                  <button
+                    onClick={() => basculer(i.id)}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left"
+                    style={{
+                      background: C.card,
+                      border: `1px solid ${choix.includes(i.id) ? C.teal : C.line}`,
+                    }}
+                  >
+                    <span
+                      className="flex h-5 w-5 shrink-0 items-center justify-center rounded"
+                      style={{
+                        background: choix.includes(i.id) ? C.teal : "transparent",
+                        border: `1px solid ${choix.includes(i.id) ? C.teal : C.line}`,
+                        color: C.surInk,
+                      }}
+                    >
+                      {choix.includes(i.id) ? <Check size={13} /> : null}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-sm">{i.nom}</span>
+                      <span className="block truncate text-xs" style={{ color: C.muted }}>
+                        {i.email}
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {fichier && muettes.length > 0 && (
+            <div className="rounded-lg p-3" style={{ background: C.card, border: `1px dashed ${C.line}` }}>
+              <p className="text-xs" style={{ color: C.muted }}>
+                Sans e-mail, donc non sélectionnables :
+              </p>
+              <p className="mt-1 text-xs" style={{ color: C.muted }}>
+                {muettes.map((i) => i.nom).join(" · ")}
+              </p>
+            </div>
+          )}
+        </Bloc>
+
+        <button
+          onClick={preparer}
+          disabled={!fichier || !choix.length}
+          className="w-full rounded-lg py-3 text-sm"
+          style={{
+            background: fichier && choix.length ? C.ink : C.line,
+            color: C.surInk,
+          }}
+        >
+          Copier les adresses et marquer comme envoyées
+          {choix.length ? ` (${choix.length})` : ""}
+        </button>
+
+        {message && (
+          <p className="whitespace-pre-line text-xs" style={{ color: C.teal }}>
+            {message}
+          </p>
+        )}
+        <div className="h-6" />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Réglages ---------- */
+function Bloc({ titre, children }) {
+  return (
+    <section>
+      <h3 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+        {titre}
+      </h3>
+      <div className="mt-3 space-y-3">{children}</div>
+    </section>
+  );
+}
+
+function Reglages({ reglages, onChange, onMotDePasse, onDeconnecter, onFermer }) {
+  const [ancien, setAncien] = useState("");
+  const [nouveau, setNouveau] = useState("");
+  const [motMessage, setMotMessage] = useState("");
+  const [confirmeSortie, setConfirmeSortie] = useState(false);
+  const [saisieCle, setSaisieCle] = useState("");
+
+  const changerMot = async () => {
+    setMotMessage("");
+    if (nouveau.length < 6) return setMotMessage("Le nouveau mot de passe doit faire au moins 6 caractères.");
+    const m = await onMotDePasse(ancien, nouveau);
+    setMotMessage(m || "Mot de passe modifié.");
+    if (!m) {
+      setAncien("");
+      setNouveau("");
+    }
+  };
+
+  const [local, setLocal] = useState(reglages);
+  const [erreur, setErreur] = useState("");
+
+  // Les bascules s'enregistrent aussitôt ; le texte attend la sortie du champ
+  // pour ne pas écrire en mémoire à chaque caractère.
+  const modifier = (k, v) => {
+    const suite = { ...local, [k]: v };
+    setLocal(suite);
+    onChange(suite);
+  };
+  const saisir = (k, v) => setLocal((p) => ({ ...p, [k]: v }));
+  const poser = () => onChange(local);
+  const modifier2 = (suite) => {
+    setLocal(suite);
+    onChange(suite);
+  };
+
+  const importerImage = async (fichier, cote, apres) => {
+    if (!fichier) return;
+    setErreur("");
+    try {
+      apres(await imageReduite(fichier, cote));
+    } catch {
+      setErreur("Cette image n'a pas pu être lue.");
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto" style={{ background: C.paper, color: C.texte }}>
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between px-5 py-3"
+        style={{ background: C.ink, color: C.surInk }}
+      >
+        <button onClick={onFermer} className="text-sm">Fermer</button>
+        <span className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+          Réglages
+        </span>
+        <span className="w-12" />
+      </div>
+
+      <div className="mx-auto w-full max-w-3xl space-y-8 px-5 py-6">
+        <Bloc titre="Profil">
+          <div className="flex items-center gap-4">
+            <div
+              className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full"
+              style={{ background: C.card, border: `1px solid ${C.line}` }}
+            >
+              {local.photo ? (
+                <img src={local.photo} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-xl" style={{ color: C.muted }}>
+                  {(local.nom || "?").trim().charAt(0).toUpperCase() || "?"}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <label
+                className="cursor-pointer rounded-lg px-3 py-2 text-sm"
+                style={{ background: C.card, border: `1px solid ${C.line}` }}
+              >
+                Choisir une photo
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => importerImage(e.target.files && e.target.files[0], 256, (v) => modifier("photo", v))}
+                />
+              </label>
+              {local.photo && (
+                <button onClick={() => modifier("photo", "")} className="text-xs underline" style={{ color: C.muted }}>
+                  Retirer la photo
+                </button>
+              )}
+            </div>
+          </div>
+
+          <Champ label="Nom">
+            <input
+              value={local.nom}
+              onChange={(e) => saisir("nom", e.target.value)}
+              onBlur={poser}
+              placeholder="Ton nom"
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          <Champ label="E-mail">
+            <input
+              type="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              value={local.email}
+              onChange={(e) => saisir("email", e.target.value)}
+              onBlur={poser}
+              placeholder="toi@exemple.fr"
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+        </Bloc>
+
+        <Bloc titre="Apparence">
+          <div className="flex gap-2">
+            {[
+              { id: "clair", label: "Clair" },
+              { id: "sombre", label: "Sombre" },
+              { id: "auto", label: "Automatique" },
+            ].map((t) => (
+              <button
+                key={t.id}
+                onClick={() => modifier("theme", t.id)}
+                className="flex-1 rounded-lg py-2 text-sm"
+                style={
+                  local.theme === t.id
+                    ? { background: C.ink, color: C.surInk }
+                    : { background: C.card, color: C.muted, border: `1px solid ${C.line}` }
+                }
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <p className="text-xs" style={{ color: C.muted }}>
+            En automatique, l'app suit le réglage clair ou sombre de ton iPhone.
+          </p>
+        </Bloc>
+
+        <Bloc titre="Assistant">
+          {local.cleApi ? (
+            <div
+              className="flex items-center justify-between gap-3 rounded-lg px-3 py-3"
+              style={{ background: C.card, border: `1px solid ${C.line}` }}
+            >
+              <span className="min-w-0">
+                <span className="block text-sm">Clé enregistrée</span>
+                <span className="block text-xs" style={{ fontFamily: F.mono, color: C.muted }}>
+                  •••• {local.cleApi.slice(-4)}
+                </span>
+              </span>
+              <button
+                onClick={() => {
+                  setSaisieCle("");
+                  modifier("cleApi", "");
+                }}
+                className="shrink-0 text-xs underline"
+                style={{ color: C.brique }}
+              >
+                Retirer
+              </button>
+            </div>
+          ) : (
+            <Champ label="Clé API Anthropic">
+              <input
+                type="password"
+                autoCapitalize="none"
+                autoCorrect="off"
+                value={saisieCle}
+                onChange={(e) => setSaisieCle(e.target.value)}
+                onBlur={() => {
+                  // Dès qu'elle est posée, la clé quitte le champ : elle ne reste pas lisible.
+                  if (saisieCle.trim()) {
+                    modifier("cleApi", saisieCle.trim());
+                    setSaisieCle("");
+                  }
+                }}
+                placeholder="sk-ant-…"
+                className="w-full bg-transparent text-base outline-none"
+                style={{ color: C.texte }}
+              />
+            </Champ>
+          )}
+          <div className="flex items-center justify-between gap-3 rounded-lg px-3 py-3" style={{ background: C.card, border: `1px solid ${C.line}` }}>
+            <span className="min-w-0 text-sm">Compléter les fiches par recherche web</span>
+            <button
+              onClick={() => modifier("recherche", local.recherche === false)}
+              className="shrink-0 rounded-full px-3 py-1 text-xs"
+              style={
+                local.recherche === false
+                  ? { border: `1px solid ${C.line}`, color: C.muted }
+                  : { background: C.teal, color: C.surInk }
+              }
+            >
+              {local.recherche === false ? "Désactivé" : "Activé"}
+            </button>
+          </div>
+          <p className="text-xs" style={{ color: C.muted }}>
+            Sans clé, l'assistant lit ton carnet et extrait une fiche des annonces par repères de
+            format. Avec une clé, il comprend le texte, lit les photos et tient la conversation.
+            Une fois saisie, la clé disparaît du champ et n'est plus jamais réaffichée : elle reste
+            dans ce navigateur, n'est transmise qu'à l'API, et les appels te sont facturés.
+          </p>
+        </Bloc>
+
+        <Bloc titre="Compte">
+          <Champ label="Ancien mot de passe">
+            <input
+              type="password"
+              value={ancien}
+              onChange={(e) => setAncien(e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          <Champ label="Nouveau mot de passe">
+            <input
+              type="password"
+              value={nouveau}
+              onChange={(e) => setNouveau(e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+              style={{ color: C.texte }}
+            />
+          </Champ>
+          <button
+            onClick={changerMot}
+            className="w-full rounded-lg py-2 text-sm"
+            style={{ background: C.card, border: `1px solid ${C.line}` }}
+          >
+            Modifier le mot de passe
+          </button>
+          {motMessage && (
+            <p className="text-xs" style={{ color: motMessage.includes("modifié") ? C.vert : C.brique }}>
+              {motMessage}
+            </p>
+          )}
+          <button
+            onClick={() => (confirmeSortie ? onDeconnecter() : setConfirmeSortie(true))}
+            className="w-full rounded-lg py-3 text-sm"
+            style={{ color: C.brique, border: `1px solid ${C.line}` }}
+          >
+            {confirmeSortie ? "Confirmer la déconnexion" : "Déconnexion"}
+          </button>
+          <p className="text-xs" style={{ color: C.muted }}>
+            Tes fiches restent enregistrées : elles reviendront à ta prochaine connexion.
+          </p>
+        </Bloc>
+
+        <Bloc titre="Fond d'écran">
+          <div className="grid grid-cols-2 gap-2">
+            {Object.keys(FONDS).map((k) => (
+              <button
+                key={k}
+                onClick={() => modifier("fond", k)}
+                className="h-16 rounded-lg text-xs"
+                style={{
+                  ...FONDS[k].style(),
+                  border: `2px solid ${local.fond === k ? C.teal : C.line}`,
+                  color: C.texte,
+                }}
+              >
+                {FONDS[k].nom}
+              </button>
+            ))}
+          </div>
+          <label
+            className="block cursor-pointer rounded-lg px-3 py-2 text-center text-sm"
+            style={{
+              background: C.card,
+              border: `2px solid ${local.fond === "image" ? C.teal : C.line}`,
+            }}
+          >
+            {local.image ? "Remplacer mon image" : "Choisir une image de mon téléphone"}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) =>
+                importerImage(e.target.files && e.target.files[0], 1400, (v) =>
+                  modifier2({ ...local, image: v, fond: "image" })
+                )
+              }
+            />
+          </label>
+          {local.image && (
+            <button
+              onClick={() => modifier2({ ...local, image: "", fond: "brume" })}
+              className="text-xs underline"
+              style={{ color: C.muted }}
+            >
+              Retirer mon image
+            </button>
+          )}
+          {erreur && (
+            <p className="text-xs" style={{ color: C.brique }}>
+              {erreur}
+            </p>
+          )}
+          <p className="text-xs" style={{ color: C.muted }}>
+            Les fonds sont dessinés par l'app ou pris sur ton téléphone : aucune image n'est chargée
+            depuis internet, l'aperçu les bloquerait.
+          </p>
+        </Bloc>
+        <div className="h-6" />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Sauvegarde ---------- */
+function Sauvegarde({ texte, onFermer, onValider }) {
+  const [colle, setColle] = useState("");
+  const [erreur, setErreur] = useState("");
+  const [info, setInfo] = useState("");
+
+  const nomFichier = `carnet-de-recherche-${isoJour(new Date())}.txt`;
+
+  const telecharger = () => {
+    try {
+      const blob = new Blob([texte], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nomFichier;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setInfo(`Fichier ${nomFichier} envoyé vers tes téléchargements.`);
+    } catch {
+      setInfo("Le téléchargement a été bloqué. Utilise Partager ou sélectionne le texte ci-dessous.");
+    }
+  };
+
+  const partager = async () => {
+    try {
+      await navigator.share({ title: "Carnet de recherche", text: texte });
+      setInfo("Partage ouvert : choisis Fichiers ou Notes pour conserver la copie.");
+    } catch {
+      setInfo("Partage indisponible. Sélectionne le texte ci-dessous pour le copier.");
+    }
+  };
+
+  const envoyerAClaude = async () => {
+    const bloc = `Mets à jour mes rappels de recherche à partir de ces fiches :\n\n${texte}`;
+    try {
+      await navigator.clipboard.writeText(bloc);
+      setInfo("Copié. Colle-le dans la conversation : je crée les rappels.");
+    } catch {
+      setInfo("Copie refusée. Sélectionne le texte plus bas et demande-moi d'en faire des rappels.");
+    }
+  };
+
+  const copier = async () => {
+    try {
+      await navigator.clipboard.writeText(texte);
+      setInfo("Copié dans le presse-papiers.");
+    } catch {
+      setInfo("Copie automatique refusée. Sélectionne le texte ci-dessous.");
+    }
+  };
+
+  const ouvrirFichier = (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const fr = new FileReader();
+    fr.onload = () => { setColle(String(fr.result || "")); setErreur(""); };
+    fr.onerror = () => setErreur("Lecture du fichier impossible.");
+    fr.readAsText(f);
+  };
+
+  const restaurer = () => {
+    const pistes = analyserExport(colle);
+    if (!pistes.length) {
+      setErreur("Aucune fiche reconnue dans ce texte.");
+      return;
+    }
+    onValider(pistes);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto" style={{ background: C.paper }}>
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between px-5 py-3"
+        style={{ background: C.ink, color: C.surInk }}
+      >
+        <button onClick={onFermer} className="text-sm">Fermer</button>
+        <span className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+          Sauvegarde
+        </span>
+        <span className="w-12" />
+      </div>
+
+      <div className="space-y-8 px-5 py-6">
+        {/* Vers Rappels */}
+        <section>
+          <h3 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+            Envoyer vers Rappels
+          </h3>
+          <p className="mt-2 text-sm" style={{ color: C.muted }}>
+            Copie tes fiches, colle-les dans la conversation : Claude crée ou met à jour les rappels
+            correspondants dans ton iPhone. C'est là que tes données seront conservées.
+          </p>
+          <button
+            onClick={envoyerAClaude}
+            className="mt-3 w-full rounded-lg py-3 text-sm"
+            style={{ background: C.ink, color: C.surInk }}
+          >
+            Copier pour Claude
+          </button>
+        </section>
+
+        {/* Enregistrer */}
+        <section>
+          <h3 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+            Enregistrer une copie
+          </h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              onClick={telecharger}
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm"
+              style={{ background: C.ink, color: C.surInk }}
+            >
+              Télécharger le fichier
+            </button>
+            {typeof navigator !== "undefined" && navigator.share && (
+              <button
+                onClick={partager}
+                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm"
+                style={{ background: C.card, border: `1px solid ${C.line}` }}
+              >
+                Partager
+              </button>
+            )}
+            <button
+              onClick={copier}
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm"
+              style={{ background: C.card, border: `1px solid ${C.line}` }}
+            >
+              <Copy size={15} /> Copier
+            </button>
+          </div>
+          {info && <p className="mt-2 text-xs" style={{ color: C.teal }}>{info}</p>}
+          <p className="mt-3 text-xs" style={{ color: C.muted }}>
+            Si rien ne se passe, sélectionne ce texte et colle-le dans Notes :
+          </p>
+          <textarea
+            readOnly
+            value={texte}
+            onFocus={(e) => e.target.select()}
+            rows={8}
+            placeholder="Aucune fiche à sauvegarder pour l'instant."
+            className="mt-2 w-full rounded-lg p-3 text-xs"
+            style={{ background: C.card, border: `1px solid ${C.line}`, fontFamily: F.mono }}
+          />
+        </section>
+
+        {/* Restaurer */}
+        <section>
+          <h3 className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+            Restaurer
+          </h3>
+          <p className="mt-2 text-sm" style={{ color: C.muted }}>
+            Ouvre un fichier de sauvegarde ou colle son contenu. Les fiches dont le nom existe déjà
+            sont ignorées.
+          </p>
+          <label
+            className="mt-3 flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm"
+            style={{ background: C.card, border: `1px solid ${C.line}` }}
+          >
+            Choisir un fichier
+            <input type="file" accept=".txt,.json,text/plain" onChange={ouvrirFichier} className="hidden" />
+          </label>
+          <textarea
+            rows={8}
+            value={colle}
+            onChange={(e) => { setColle(e.target.value); setErreur(""); }}
+            placeholder={"Entreprise : Dataiku\nContact : …"}
+            className="mt-3 w-full rounded-lg p-3 text-xs"
+            style={{
+              background: C.card,
+              border: `1px solid ${erreur ? C.brique : C.line}`,
+              fontFamily: F.mono,
+            }}
+          />
+          {erreur && (
+            <p role="alert" className="mt-1 flex items-start gap-1.5 text-xs" style={{ color: C.brique }}>
+              <AlertCircle size={13} className="mt-0.5 shrink-0" />
+              {erreur}
+            </p>
+          )}
+          <button
+            onClick={restaurer}
+            className="mt-3 w-full rounded-lg py-3 text-sm"
+            style={{ background: colle ? C.ink : C.line, color: C.surInk }}
+          >
+            Ajouter ces fiches au carnet
+          </button>
+        </section>
+        <div className="h-6" />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Fiche ---------- */
+const texteDUnePiste = (i) =>
+  [
+    `${i.type === "formation" ? "Formation" : "Entreprise"} : ${i.nom}`,
+    i.intitule && `Intitulé : ${i.intitule}`,
+    i.source && `Offre vue sur : ${i.source}`,
+    i.contactNom && `Contact : ${i.contactNom}`,
+    i.tel && `Téléphone : ${i.tel}`,
+    i.email && `E-mail : ${i.email}`,
+    i.lien && `Lien : ${i.lien}`,
+    `Statut : ${statut(i.statutId).label}`,
+    i.dateContact && `${champsDates(i.statutId).action} : ${i.dateContact}${i.heure ? " " + i.heure : ""}`,
+    i.dateRappel && `Rappel : ${i.dateRappel}`,
+    i.commentaire && `Commentaire : ${i.commentaire}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+function Fiche({ piste, onFermer, onValider, onSupprimer, existe }) {
+  const [d, setD] = useState({ ...vide(), ...piste });
+  const [erreurs, setErreurs] = useState({});
+  const [verifie, setVerifie] = useState(false);
+  const [confirme, setConfirme] = useState(false);
+  const ancres = useRef({});
+  const maj = (k, v) =>
+    setD((p) => {
+      const suivant = { ...p, [k]: v };
+      // Un statut sans rappel ne doit pas garder une échéance invisible.
+      if (k === "statutId" && !champsDates(v).rappel) suivant.dateRappel = "";
+      if (k === "statutId" && !champsDates(v).heure) suivant.heure = "";
+      return suivant;
+    });
+
+  // Une fois la première tentative faite, les messages se mettent à jour en direct.
+  useEffect(() => {
+    if (verifie) setErreurs(verifier(d, piste));
+  }, [d, verifie, piste]);
+
+  // Le sélecteur s'ouvre sur aujourd'hui, sauf pour une fiche déjà en retard qu'on garde telle quelle.
+  const minRappel =
+    piste.dateRappel && joursRestants(piste.dateRappel) < 0 ? piste.dateRappel : isoJour(today());
+
+  const alertes = alerter(d);
+  const nbErreurs = Object.keys(erreurs).length;
+
+  const [partage, setPartage] = useState("");
+
+  // Feuille de partage iOS quand elle est disponible, copie sinon.
+  const partager = async () => {
+    const texte = texteDUnePiste(d);
+    try {
+      await navigator.share({ title: d.nom, text: texte });
+      setPartage("");
+      return;
+    } catch (e) {
+      if (e && e.name === "AbortError") return;
+    }
+    try {
+      await navigator.clipboard.writeText(texte);
+      setPartage("Copié — colle-le où tu veux");
+    } catch {
+      setPartage("Partage indisponible sur cet écran");
+    }
+    setTimeout(() => setPartage(""), 2500);
+  };
+
+  const enregistrer = () => {
+    const e = verifier(d, piste);
+    setErreurs(e);
+    setVerifie(true);
+    const premier = Object.keys(e)[0];
+    if (premier) {
+      const noeud = ancres.current[premier];
+      if (noeud && noeud.scrollIntoView) noeud.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    onValider({
+      ...d,
+      nom: d.nom.trim(),
+      intitule: d.intitule.trim(),
+      contactNom: d.contactNom.trim(),
+      tel: d.tel.trim(),
+      email: d.email.trim(),
+      lien: normaliserLien(d.lien),
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto" style={{ background: C.paper }}>
+      <div
+        className="sticky top-0 z-10 flex items-center justify-between px-5 py-3"
+        style={{ background: C.ink, color: C.surInk }}
+      >
+        <button onClick={onFermer} className="text-sm">Fermer</button>
+        <span className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: "#8FB0AB" }}>
+          {existe ? "Fiche" : "Nouvelle piste"}
+        </span>
+        <button onClick={enregistrer} className="text-sm font-medium">Enregistrer</button>
+      </div>
+
+      {nbErreurs > 0 && (
+        <p
+          role="alert"
+          className="flex items-center gap-2 px-5 py-2 text-xs"
+          style={{ background: "#F6E3DF", color: C.brique }}
+        >
+          <AlertCircle size={14} />
+          {nbErreurs === 1 ? "Un champ est à corriger." : `${nbErreurs} champs sont à corriger.`}
+        </p>
+      )}
+
+      <div className="mx-auto w-full max-w-5xl px-5 py-6 lg:flex lg:items-start lg:gap-8">
+        <div className="space-y-5 lg:flex-1">
+        <div className="flex gap-2">
+          {[
+            { id: "entreprise", label: "Entreprise", Ico: Building2 },
+            { id: "formation", label: "Formation", Ico: GraduationCap },
+          ].map(({ id, label, Ico }) => (
+            <button
+              key={id}
+              onClick={() => maj("type", id)}
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm"
+              style={
+                d.type === id
+                  ? { background: C.ink, color: C.surInk }
+                  : { background: C.card, color: C.muted, border: `1px solid ${C.line}` }
+              }
+            >
+              <Ico size={16} /> {label}
+            </button>
+          ))}
+        </div>
+
+        <Champ
+          label={d.type === "formation" ? "Organisme" : "Entreprise"}
+          obligatoire
+          erreur={erreurs.nom}
+          ancre={(n) => (ancres.current.nom = n)}
+        >
+          <input
+            value={d.nom}
+            onChange={(e) => maj("nom", e.target.value)}
+            placeholder={d.type === "formation" ? "Ex. CNAM" : "Ex. Dataiku"}
+            aria-invalid={!!erreurs.nom}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+
+        <Champ
+          label={d.type === "formation" ? "Intitulé de la formation" : "Poste visé"}
+          erreur={erreurs.intitule}
+          ancre={(n) => (ancres.current.intitule = n)}
+        >
+          <input
+            value={d.intitule}
+            onChange={(e) => maj("intitule", e.target.value)}
+            aria-invalid={!!erreurs.intitule}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+
+        <p className="pt-2 text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Coordonnées
+        </p>
+        <Champ label="Contact" erreur={erreurs.contactNom} ancre={(n) => (ancres.current.contactNom = n)}>
+          <input
+            value={d.contactNom}
+            onChange={(e) => maj("contactNom", e.target.value)}
+            aria-invalid={!!erreurs.contactNom}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+        <Champ
+          label="Téléphone"
+          erreur={erreurs.tel}
+          ancre={(n) => (ancres.current.tel = n)}
+          action={d.tel && !erreurs.tel ? { valeur: d.tel.replace(/\s/g, ""), Ico: Phone } : null}
+        >
+          <input
+            type="tel"
+            inputMode="tel"
+            value={d.tel}
+            onChange={(e) => maj("tel", e.target.value)}
+            placeholder="06 12 34 56 78"
+            aria-invalid={!!erreurs.tel}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+        <Champ
+          label="E-mail"
+          erreur={erreurs.email}
+          ancre={(n) => (ancres.current.email = n)}
+          action={d.email && !erreurs.email ? { valeur: d.email.trim(), Ico: Mail } : null}
+        >
+          <input
+            type="email"
+            inputMode="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            value={d.email}
+            onChange={(e) => maj("email", e.target.value)}
+            placeholder="contact@entreprise.fr"
+            aria-invalid={!!erreurs.email}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+        <Champ
+          label="Lien"
+          erreur={erreurs.lien}
+          ancre={(n) => (ancres.current.lien = n)}
+          lien={d.lien && !erreurs.lien ? { href: normaliserLien(d.lien), Ico: LinkIcon, label: "Ouvrir" } : null}
+        >
+          <input
+            type="url"
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+            value={d.lien}
+            onChange={(e) => maj("lien", e.target.value)}
+            placeholder="www.entreprise.fr"
+            aria-invalid={!!erreurs.lien}
+            className="w-full bg-transparent text-base outline-none"
+          />
+        </Champ>
+
+        <p className="pt-2 text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+          Suivi
+        </p>
+        {d.type === "entreprise" && (
+          <Champ label="Offre vue sur">
+            <select
+              value={d.source}
+              onChange={(e) => maj("source", e.target.value)}
+              className="w-full bg-transparent text-base outline-none"
+            >
+              <option value="">—</option>
+              {SOURCES.map((x) => (
+                <option key={x} value={x}>{x}</option>
+              ))}
+            </select>
+          </Champ>
+        )}
+        <Champ label="Statut" alerte={alertes.statutId}>
+          <select
+            value={d.statutId}
+            onChange={(e) => maj("statutId", e.target.value)}
+            className="w-full bg-transparent text-base outline-none"
+          >
+            {STATUTS.map((s) => (
+              <option key={s.id} value={s.id}>{s.label}</option>
+            ))}
+          </select>
+        </Champ>
+        <div className="flex items-start gap-3">
+          <div className="flex-1">
+            <Champ
+              label={champsDates(d.statutId).action}
+              erreur={erreurs.dateContact}
+              alerte={alertes.dateContact}
+              compteur={joursRestants(d.dateContact) >= 0 ? compteur(joursRestants(d.dateContact)) : null}
+              compteurCouleur={couleurEcheance(joursRestants(d.dateContact))}
+              ancre={(n) => (ancres.current.dateContact = n)}
+            >
+              <input
+                type="date"
+                value={d.dateContact}
+                onChange={(e) => maj("dateContact", e.target.value)}
+                aria-invalid={!!erreurs.dateContact}
+                className="w-full bg-transparent text-base outline-none"
+              />
+            </Champ>
+          </div>
+          {champsDates(d.statutId).heure && (
+            <div className="flex-1">
+              <Champ
+                label="Heure"
+                erreur={erreurs.heure}
+                alerte={alertes.heure}
+                ancre={(n) => (ancres.current.heure = n)}
+              >
+                <input
+                  type="time"
+                  value={d.heure}
+                  onChange={(e) => maj("heure", e.target.value)}
+                  aria-invalid={!!erreurs.heure}
+                  className="w-full bg-transparent text-base outline-none"
+                />
+              </Champ>
+            </div>
+          )}
+          {champsDates(d.statutId).rappel && (
+            <div className="flex-1">
+              <Champ
+                label="Rappel le"
+                erreur={erreurs.dateRappel}
+                alerte={alertes.dateRappel}
+                ancre={(n) => (ancres.current.dateRappel = n)}
+              >
+                <input
+                  type="date"
+                  value={d.dateRappel}
+                  min={minRappel}
+                  onChange={(e) => maj("dateRappel", e.target.value)}
+                  aria-invalid={!!erreurs.dateRappel}
+                  className="w-full bg-transparent text-base outline-none"
+                />
+              </Champ>
+            </div>
+          )}
+        </div>
+        {d.dateRappel && !erreurs.dateRappel && (
+          <p
+            className="-mt-2 flex items-center gap-1.5 text-xs"
+            style={{ color: couleurEcheance(joursRestants(d.dateRappel), true) }}
+          >
+            <Bell size={12} />
+            <span style={{ fontFamily: F.mono }}>{compteur(joursRestants(d.dateRappel))}</span>
+            <span style={{ color: C.muted }}>· demande-moi de le créer dans Rappels</span>
+          </p>
+        )}
+
+        <Champ
+          label="Commentaire"
+          erreur={erreurs.commentaire}
+          ancre={(n) => (ancres.current.commentaire = n)}
+          compteur={d.commentaire.length > MAX.commentaire - 200 ? `${d.commentaire.length}/${MAX.commentaire}` : null}
+        >
+          <textarea
+            rows={4}
+            value={d.commentaire}
+            onChange={(e) => maj("commentaire", e.target.value)}
+            placeholder="Échanges, salaire, financement, prochaine étape…"
+            aria-invalid={!!erreurs.commentaire}
+            className="w-full resize-none bg-transparent text-base outline-none"
+          />
+        </Champ>
+
+
+        {existe && (
+          <button
+            onClick={partager}
+            className="mt-4 w-full rounded-lg py-3 text-sm"
+            style={{ background: C.card, border: `1px solid ${C.line}` }}
+          >
+            {partage || "Partager cette piste"}
+          </button>
+        )}
+
+        {existe && (
+          <button
+            onClick={() => (confirme ? onSupprimer(d.id) : setConfirme(true))}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm"
+            style={{ color: C.brique, border: `1px solid ${C.line}` }}
+          >
+            <Trash2 size={15} />
+            {confirme ? "Confirmer la suppression" : "Supprimer la fiche"}
+          </button>
+        )}
+        <div className="h-6" />
+        </div>
+
+        {Array.isArray(d.historique) && d.historique.length > 0 && (
+          <section className="mt-8 lg:sticky lg:top-20 lg:order-first lg:mt-0 lg:w-72 lg:shrink-0">
+            <p className="text-xs uppercase tracking-widest" style={{ fontFamily: F.mono, color: C.muted }}>
+              Historique
+            </p>
+            <ul className="mt-2 space-y-1">
+              {d.historique.map((h, k) => (
+                <li
+                  key={k}
+                  className="rounded-lg px-3 py-2 text-sm"
+                  style={{ background: C.card, border: `1px solid ${C.line}` }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-2 w-2 shrink-0 rounded-full"
+                      style={{ background: couleurStatut(h.statutId) }}
+                    />
+                    <span className="min-w-0 flex-1 truncate">{statut(h.statutId).label}</span>
+                    <span className="shrink-0 text-xs" style={{ fontFamily: F.mono, color: C.muted }}>
+                      {h.date ? dateCourte(h.date) : "sans date"}
+                      {h.heure ? ` ${h.heure}` : ""}
+                    </span>
+                    <button
+                      onClick={() => setD((p) => ({ ...p, historique: p.historique.filter((_, n) => n !== k) }))}
+                      aria-label="Retirer cette étape"
+                      className="shrink-0"
+                    >
+                      <X size={14} color={C.muted} />
+                    </button>
+                  </div>
+                  {h.note && (
+                    <p className="mt-1 whitespace-pre-line pl-4 text-xs" style={{ color: C.muted }}>
+                      {h.note}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function BoutonCopier({ valeur, Ico }) {
+  const [etat, setEtat] = useState("");
+  const copier = async () => {
+    try {
+      await navigator.clipboard.writeText(valeur);
+      setEtat("fait");
+      setTimeout(() => setEtat(""), 2000);
+    } catch {
+      setEtat("refus");
+    }
+  };
+  return (
+    <button
+      onClick={copier}
+      className="-my-1 flex items-center gap-1 rounded-full px-2 py-1"
+      style={{ color: etat === "fait" ? C.vert : C.teal, border: `1px solid ${C.line}` }}
+    >
+      {etat === "fait" ? <Check size={13} /> : <Ico size={13} />}
+      {etat === "fait" ? "Copié" : etat === "refus" ? "Refusé" : "Copier"}
+    </button>
+  );
+}
+
+function Champ({ label, children, lien, action, erreur, alerte, obligatoire, compteur, compteurCouleur, ancre }) {
+  const teinte = erreur ? C.brique : alerte ? C.ocre : null;
+  return (
+    <div ref={ancre}>
+      {/* Conteneur neutre : un <label> détournerait le tap du bouton d'action vers la saisie. */}
+      <div
+        className="block rounded-lg px-3 py-2"
+        style={{
+          background: C.card,
+          border: `1px solid ${teinte || C.line}`,
+          boxShadow: erreur ? `0 0 0 2px rgba(178,58,47,.12)` : "none",
+        }}
+      >
+        <div className="mb-1 flex items-center justify-between text-xs" style={{ color: teinte || C.muted }}>
+          <span>
+            {label}
+            {obligatoire && <span style={{ color: C.brique }}> *</span>}
+          </span>
+          <span className="flex items-center gap-2">
+            {compteur && (
+              <span style={{ fontFamily: F.mono, color: erreur ? C.brique : compteurCouleur || C.muted }}>{compteur}</span>
+            )}
+            {action && action.valeur && <BoutonCopier valeur={action.valeur} Ico={action.Ico} />}
+            {lien && (
+              <a
+                href={lien.href}
+                target="_blank"
+                rel="noreferrer"
+                className="-my-1 flex items-center gap-1 rounded-full px-2 py-1"
+                style={{ color: C.teal, border: `1px solid ${C.line}` }}
+              >
+                <lien.Ico size={13} />
+                {lien.label}
+              </a>
+            )}
+          </span>
+        </div>
+        {children}
+      </div>
+      {(erreur || alerte) && (
+        <p
+          role={erreur ? "alert" : undefined}
+          className="mt-1 flex items-start gap-1.5 px-1 text-xs"
+          style={{ color: erreur ? C.brique : C.ocre }}
+        >
+          {erreur ? <AlertCircle size={13} className="mt-0.5 shrink-0" /> : <AlertTriangle size={13} className="mt-0.5 shrink-0" />}
+          {erreur || alerte}
+        </p>
+      )}
+    </div>
+  );
+}
+
+
+ReactDOM.createRoot(document.getElementById("racine")).render(<CarnetDeRecherche />);
+
+</script>
+</body>
+</html>

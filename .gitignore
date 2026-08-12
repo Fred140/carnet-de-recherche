@@ -1,0 +1,31 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Netlify
+.netlify/
+
+# Supabase CLI
+.supabase/
+supabase/.temp/
+
+# Node (si tu ajoutes un build plus tard)
+node_modules/
+dist/
+build/
+
+# Sauvegardes locales
+*.bak
+*.zip
+index-v*.html
+index-copie*.html

@@ -13,3 +13,28 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Force HTTPS
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    
+    # Empêche le clickjacking
+    X-Frame-Options = "DENY"
+    
+    # Empêche les attaques MIME type sniffing
+    X-Content-Type-Options = "nosniff"
+    
+    # Protection XSS
+    X-XSS-Protection = "1; mode=block"
+    
+    # Contrôle du référrer
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Permissions du navigateur
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=()"
+    
+    # CSP - restrictive
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; form-action 'self'; img-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; connect-src 'self' https://zokfowfdnkfzevvshday.supabase.co wss://zokfowfdnkfzevvshday.supabase.co; font-src 'self' data:; object-src 'none'; upgrade-insecure-requests; block-all-mixed-content"

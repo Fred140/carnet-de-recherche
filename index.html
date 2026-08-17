@@ -89,7 +89,20 @@
     appearance: none;
   }
 
-  select { -webkit-appearance: menulist; appearance: menulist; }
+  /* Spécifique pour iOS - enlever les contraintes et améliorer l'affichage */
+  @supports (-webkit-touch-callout: none) {
+    select {
+      /* Enlever les contraintes de hauteur qui coupent le texte */
+      height: auto !important;
+      max-height: none !important;
+      min-height: auto !important;
+      
+      /* Styles d'affichage pour iOS */
+      padding: 0.7rem 0.9rem !important;
+      font-size: 18px !important;
+      line-height: 1.6 !important;
+    }
+  }
   input[type="date"], input[type="time"] { -webkit-appearance: none; }
   textarea { padding: 0 !important; border: 0 !important; background: transparent !important; }
 
@@ -148,22 +161,6 @@
       padding: 1rem 0.5rem !important;
       line-height: 2 !important;
       font-size: 17px !important;
-    }
-  }
-
-  /* Spécifique pour iOS - approche douce et équilibrée */
-  @supports (-webkit-touch-callout: none) {
-    select {
-      min-height: 3.5rem !important;
-      padding: 1rem 1.1rem !important;
-      font-size: 20px !important;
-      line-height: 1.7 !important;
-    }
-
-    option {
-      font-size: 20px !important;
-      padding: 0.7rem 0.5rem !important;
-      line-height: 2 !important;
     }
   }
 

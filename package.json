@@ -1,0 +1,16 @@
+{
+  "name": "carnet-de-recherche",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "vite": "^8.2.1"
+  }
+}
